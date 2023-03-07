@@ -19,6 +19,7 @@ on:
 jobs:
   create_repo:
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       - name: Check out github repository
