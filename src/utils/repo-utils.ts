@@ -18,7 +18,7 @@ export class RepoUtils {
 
   async createRepo(owner: string, repoName: string, repoDescription: string): Promise<void> {
     console.log('........................................');
-    console.log('Creating repo...');
+    console.log(`Creating repo ${repoName} in ${owner} 📦...`);
     const createRepoPayload: RepoPayload = defaultRepoCreateConfig(repoName, repoDescription);
 
     const data = await this.githubApi.createRepo(owner, createRepoPayload);

@@ -1,11 +1,33 @@
-# Repo Creatooor
 
-This repository creator workflow allows users to create new repositories with all the Wonderland securities configuration. The main features of this workflow are:
+██████╗░███████╗██████╗░░█████╗░  ░█████╗░██████╗░███████╗░█████╗░████████╗░█████╗░██████╗░
+██╔══██╗██╔════╝██╔══██╗██╔══██╗  ██╔══██╗██╔══██╗██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗
+██████╔╝█████╗░░██████╔╝██║░░██║  ██║░░╚═╝██████╔╝█████╗░░███████║░░░██║░░░██║░░██║██████╔╝
+██╔══██╗██╔══╝░░██╔═══╝░██║░░██║  ██║░░██╗██╔══██╗██╔══╝░░██╔══██║░░░██║░░░██║░░██║██╔══██╗
+██║░░██║███████╗██║░░░░░╚█████╔╝  ╚█████╔╝██║░░██║███████╗██║░░██║░░░██║░░░╚█████╔╝██║░░██║
+╚═╝░░╚═╝╚══════╝╚═╝░░░░░░╚════╝░  ░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░╚═╝░░╚═╝
 
-- The only mandatory field is the repository name, but the user can provide additional options such as:
-  - The codeowners.
-  - Create from template providing a template owner and a template repo.
-- The repository created will have two branches, `main` (default) and `dev` with the following setup:
+The repository creator workflow allows users to create new repositories with all the Wonderland securities configurations. 
+
+
+## How to use it?
+
+1. Click on the **actions** button and then click on the "Repo creation" action.
+![alt text](https://github.com/defi-wonderland/repo-creator/blob/main/step_1.png?raw=true)
+![alt text](https://github.com/defi-wonderland/repo-creator/blob/main/step_2.png?raw=true)
+2. Click on **Run Workflow**.
+![alt text](https://github.com/defi-wonderland/repo-creator/blob/main/step_3.png?raw=true)
+3. Fill in the mandatory field **Repository name**.
+4. If needed fill the codeowners field, if not the codeowners will be **@defi-wonderland/default-codeowner**.
+5. If you are creating the repo from a template fill the template field (eg. defi-wonderland/solidity-hardhat-boilerplate), if not leave it empty.
+6. Click on **Run Workflow**.
+![alt text](https://github.com/defi-wonderland/repo-creator/blob/main/step_1.png?raw=true)
+7. After the repository is created, a link to the new repository will be provided.
+
+## Good practices
+
+- **Always add teams instead of individual collaborators and prioritize teams**.
+
+## The repository created will have two branches, `main` (default) and `dev` with the following setup:
 
   **Critical**
 
@@ -35,16 +57,3 @@ This repository creator workflow allows users to create new repositories with al
     - [ ] Enable "Require status checks to pass before merging"
     - [ ] Enable "Require branches to be up to date before merging"
     - [ ] Enable "Require signed commits"
-
-Always remember to add collaborators to teams instead of individual members, since it’s easier to manage.
-
-## Usage
-
-To use this repository creator workflow, follow these steps:
-
-1. Click on the actions button and then click on the "Repo creation" action.
-2. Click on "Run Workflow".
-3. Fill in the mandatory field "Repository name".
-4. If desired, select the "Codeowners" field and/or provide a template owner and a template repository.
-5. Click on "Run Workflow".
-6. After the repository is created, a link to the new repository will be provided.
