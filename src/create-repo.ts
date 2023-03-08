@@ -11,12 +11,11 @@ const createRepo = async () => {
   const repo = getEnvVariable('GH_REPO_NAME').replace(/ /g, '-');
   const admin = getEnvVariable('GH_USER_CREATOR');
   const codeowner = getEnvVariableOrEmpty('GH_CODEOWNER');
-  const templateOwner = getEnvVariableOrEmpty('GH_TEMPLATE_OWNER');
-  const templateRepo = getEnvVariableOrEmpty('GH_TEMPLATE_REPO');
-  const repoCheckers = new RepoCheckers(githubApi, owner, repo, templateOwner, templateRepo, admin);
+  const template = getEnvVariableOrEmpty('GH_TEMPLATE');
+  const repoCheckers = new RepoCheckers(githubApi, owner, repo, template, admin);
 
-  if (templateOwner != '' && templateRepo != '') {
-    await repoUtils.createRepoFromTemplate(owner, repo, templateOwner, templateRepo);
+  if (template != '') {
+    await repoUtils.createRepoFromTemplate(owner, repo, template);
     console.log('Waiting for repo to be created...');
     await new Promise((f) => setTimeout(f, 5000));
   } else {
@@ -31,10 +30,11 @@ const createRepo = async () => {
 
   await repoUtils.addCodeowners(owner, repo, codeowner == '' ? 'defi-wonderland/default-codeowner' : codeowner);
   await repoUtils.addCollaborator(owner, repo, admin, 'admin');
-  await repoUtils.updateBranchProtection(owner, repo, 'main', true);
-  await repoUtils.requireSignature(owner, repo, 'main');
   const sha = await repoUtils.getMainBrancRef(owner, repo);
   await repoUtils.createBranch(owner, repo, 'dev', sha);
+  await repoUtils.updateRepo(owner, repo, '');
+  await repoUtils.updateBranchProtection(owner, repo, 'main', true);
+  await repoUtils.requireSignature(owner, repo, 'main');
   await repoUtils.updateBranchProtection(owner, repo, 'dev', false);
   await repoUtils.requireSignature(owner, repo, 'dev');
 

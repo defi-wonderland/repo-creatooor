@@ -7,13 +7,10 @@ on:
         description: "Repository name"
         required: true
       repo_codeowner:
-        description: "Codeowners (eg: @defi-wonderland/price-solidity-codeowners)"
+        description: "Codeowners (eg. @defi-wonderland/default-codeowner) or empty for default"
         required: false
-      from_template_owner:
-        description: "Template owner (eg. defi-wonderland)"
-        required: false
-      from_template_repo:
-        description: "Template repo (eg. solidity-hardhat-boilerplate)"
+      template:
+        description: "Template (eg. defi-wonderland/solidity-hardhat-boilerplate) or empty if not from template"
         required: false
 
 jobs:
@@ -49,6 +46,5 @@ jobs:
           GH_REPO_NAME: ${{ github.event.inputs.repo_name }}
           GH_USER_CREATOR: ${{ github.actor }}
           GH_CODEOWNER: ${{ github.event.inputs.repo_codeowner }}
-          GH_TEMPLATE_OWNER: ${{ github.event.inputs.from_template_owner }}
-          GH_TEMPLATE_REPO: ${{ github.event.inputs.from_template_repo }}
+          GH_TEMPLATE: ${{ github.event.inputs.template }}
         run: yarn create-repo

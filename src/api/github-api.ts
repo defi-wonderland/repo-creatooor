@@ -2,8 +2,8 @@ import axios, { AxiosInstance } from 'axios';
 import {
   GetRefResponse,
   CreateRefPayload,
-  CreateRepoPayload,
-  CreateRepoResponse,
+  RepoPayload,
+  RepoResponse,
   UpdateBranchProtectionPayload,
   BranchProtectionResponse,
   RequireSingatureResponse,
@@ -26,8 +26,13 @@ export class GithubApi {
     this.axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   }
 
-  async createRepo(owner: string, createRepoPayload: CreateRepoPayload): Promise<CreateRepoResponse> {
-    const { data } = await this.axios.post<CreateRepoResponse>(`/orgs/${owner}/repos`, createRepoPayload);
+  async createRepo(owner: string, createRepoPayload: RepoPayload): Promise<RepoResponse> {
+    const { data } = await this.axios.post<RepoResponse>(`/orgs/${owner}/repos`, createRepoPayload);
+    return data;
+  }
+
+  async updateRepo(owner: string, repo: string, updateRepoPayload: RepoPayload): Promise<RepoResponse> {
+    const { data } = await this.axios.patch<RepoResponse>(`/repos/${owner}/${repo}`, updateRepoPayload);
     return data;
   }
 
@@ -80,14 +85,10 @@ export class GithubApi {
   }
 
   async createRepoFromTemplate(
-    templateOwner: string,
-    templateRepo: string,
+    template: string,
     createRepoFromTemplatePayload: CreateRepoFromTemplatePayload
   ): Promise<CreateRepoFromTemplateResponse> {
-    const { data } = await this.axios.post<CreateRepoFromTemplateResponse>(
-      `/repos/${templateOwner}/${templateRepo}/generate`,
-      createRepoFromTemplatePayload
-    );
+    const { data } = await this.axios.post<CreateRepoFromTemplateResponse>(`/repos/${template}/generate`, createRepoFromTemplatePayload);
     return data;
   }
 

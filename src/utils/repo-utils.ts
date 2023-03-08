@@ -1,6 +1,12 @@
 import { GithubApi } from '../api/github-api';
 import {
-  CreateRepoPayload,
+  defaultBranchProtectionConfig,
+  defaultCreateRepoFromTemplateConfig,
+  defaultRepoCreateConfig,
+  defaultRepoUpdateConfig,
+} from '../config/default';
+import {
+  RepoPayload,
   UpdateBranchProtectionPayload,
   CreateRefPayload,
   CreateRepoFromTemplatePayload,
@@ -13,55 +19,24 @@ export class RepoUtils {
   async createRepo(owner: string, repoName: string, repoDescription: string): Promise<void> {
     console.log('........................................');
     console.log('Creating repo...');
-    const createRepoPayload: CreateRepoPayload = {
-      org: 'defi-wonderland',
-      name: repoName,
-      description: repoDescription,
-      homepage: 'https://defi.sucks/',
-      private: false,
-      visibility: 'private',
-      has_issues: true,
-      has_projects: true,
-      has_wiki: true,
-      default_branch: 'main',
-      auto_init: true,
-      has_downloads: true,
-      is_template: false,
-      allow_squash_merge: true,
-      allow_merge_commit: true,
-      allow_rebase_merge: false,
-      allow_auto_merge: false,
-      delete_branch_on_merge: true,
-      use_squash_pr_title_as_default: true,
-      squash_merge_commit_title: 'PR_TITLE',
-      squash_merge_commit_message: 'PR_BODY',
-      merge_commit_title: 'PR_TITLE',
-      merge_commit_message: 'PR_BODY',
-    };
+    const createRepoPayload: RepoPayload = defaultRepoCreateConfig(repoName, repoDescription);
 
     const data = await this.githubApi.createRepo(owner, createRepoPayload);
     console.log(`Repo ${data.name} created!`);
   }
 
+  async updateRepo(owner: string, repoName: string, repoDescription: string): Promise<void> {
+    console.log('........................................');
+    console.log(`Updating repo ${repoName}...`);
+    const updateRepoPayload: RepoPayload = defaultRepoUpdateConfig(repoName, repoDescription);
+
+    const data = await this.githubApi.updateRepo(owner, repoName, updateRepoPayload);
+    console.log(`Repo ${data.name} updated!`);
+  }
+
   async updateBranchProtection(owner: string, repoName: string, branchName: string, isMainBranch: boolean): Promise<void> {
     console.log('Updating branch protection...');
-    const updateBranchProtectionPayload: UpdateBranchProtectionPayload = {
-      required_status_checks: {
-        strict: true,
-        contexts: [],
-      },
-      required_pull_request_reviews: {
-        dismiss_stale_reviews: true,
-        require_code_owner_reviews: isMainBranch,
-        required_approving_review_count: isMainBranch ? 2 : 1,
-        require_last_push_approval: true,
-      },
-      enforce_admins: true,
-      restrictions: null,
-      allow_force_pushes: false,
-      allow_deletions: false,
-      lock_branch: false,
-    };
+    const updateBranchProtectionPayload: UpdateBranchProtectionPayload = defaultBranchProtectionConfig(isMainBranch);
     await this.githubApi.updateBranchProtection(owner, repoName, branchName, updateBranchProtectionPayload);
     console.log(`Branch protection updated!`);
   }
@@ -101,18 +76,12 @@ export class RepoUtils {
     console.log(`${username} added as a ${adminLevel} collaborator!`);
   }
 
-  async createRepoFromTemplate(owner: string, repo: string, templateOwner: string, templateRepo: string): Promise<void> {
-    console.log(`Creating ${repo} from ${templateRepo} of ${templateOwner} template...`);
-    const createRepoFromTemplatePayload: CreateRepoFromTemplatePayload = {
-      owner: owner,
-      name: repo,
-      description: '',
-      include_all_branches: false,
-      private: true,
-    };
+  async createRepoFromTemplate(owner: string, repo: string, template: string): Promise<void> {
+    console.log(`Creating ${repo} from ${template} template...`);
+    const createRepoFromTemplatePayload: CreateRepoFromTemplatePayload = defaultCreateRepoFromTemplateConfig(owner, repo);
 
-    await this.githubApi.createRepoFromTemplate(templateOwner, templateRepo, createRepoFromTemplatePayload);
-    console.log(`${repo} created from ${templateRepo} of ${templateOwner} template!`);
+    await this.githubApi.createRepoFromTemplate(template, createRepoFromTemplatePayload);
+    console.log(`${repo} created from ${template} template!`);
   }
 
   async listBranches(owner: string, repo: string): Promise<ListBranchesResponse> {

@@ -14,7 +14,7 @@ export type CreateRefPayload = {
   sha: string;
 };
 
-export type CreateRepoPayload = {
+export type RepoPayload = {
   name: string;
   org: string;
   description: string;
@@ -40,7 +40,7 @@ export type CreateRepoPayload = {
   merge_commit_message: string;
 };
 
-export type CreateRepoResponse = {
+export type RepoResponse = {
   id: number;
   node_id: string;
   name: string;
