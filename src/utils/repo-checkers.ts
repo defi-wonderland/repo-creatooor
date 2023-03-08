@@ -26,7 +26,7 @@ export class RepoCheckers {
     const repoAssertions: Assertion[] = [];
     console.log('.........................................................');
     console.log(`Running checks for repo ${this.repo} in ${this.owner} 📝 ...`);
-    const config: RepoPayload = defaultRepoCreateConfig(this.repo, '');
+    const config: RepoPayload = defaultRepoCreateConfig(this.owner, this.repo, '');
     const repoData = await this.githubApi.getRepository(this.owner, this.repo);
 
     console.log(`Checking repo name: ${this.repo}`);

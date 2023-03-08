@@ -19,7 +19,7 @@ export class RepoUtils {
   async createRepo(owner: string, repoName: string, repoDescription: string): Promise<void> {
     console.log('........................................');
     console.log(`Creating repo ${repoName} in ${owner} 📦...`);
-    const createRepoPayload: RepoPayload = defaultRepoCreateConfig(repoName, repoDescription);
+    const createRepoPayload: RepoPayload = defaultRepoCreateConfig(owner, repoName, repoDescription);
 
     const data = await this.githubApi.createRepo(owner, createRepoPayload);
     console.log(`Repo ${data.name} created!`);
@@ -28,7 +28,7 @@ export class RepoUtils {
   async updateRepo(owner: string, repoName: string, repoDescription: string): Promise<void> {
     console.log('........................................');
     console.log(`Updating repo ${repoName}...`);
-    const updateRepoPayload: RepoPayload = defaultRepoUpdateConfig(repoName, repoDescription);
+    const updateRepoPayload: RepoPayload = defaultRepoUpdateConfig(owner, repoName, repoDescription);
 
     const data = await this.githubApi.updateRepo(owner, repoName, updateRepoPayload);
     console.log(`Repo ${data.name} updated!`);
