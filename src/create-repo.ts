@@ -14,9 +14,9 @@ const createRepo = async () => {
   const codeowner = getEnvVariableOrEmpty('GH_CODEOWNER');
   const template = getEnvVariableOrEmpty('GH_TEMPLATE');
   const repoCheckers = new RepoCheckers(githubApi, owner, repo, template, admin);
-  const discordChannel = getEnvVariableOrEmpty('DISCORD_CHANNEL');
+  const discordWebhook = getEnvVariableOrEmpty('DISCORD_WEBHOOK');
 
-  notifyDiscord(discordChannel, `${admin} triggered repo creation: **${repo}** for **${owner}** org 📦 `);
+  notifyDiscord(discordWebhook, `${admin} triggered repo creation: **${repo}** for **${owner}** org 📦 `);
 
   try {
     if (template != '') {
@@ -46,11 +46,11 @@ const createRepo = async () => {
     repoCheckers.checkAll();
 
     console.log(`Link to the repo https://github.com/${owner}/${repo}`);
-    notifyDiscord(discordChannel, `Repo **${repo}** successfully created 🚀 \nLink to the repo https://github.com/${owner}/${repo}`);
+    notifyDiscord(discordWebhook, `Repo **${repo}** successfully created 🚀 \nLink to the repo https://github.com/${owner}/${repo}`);
   } catch (err) {
     console.error(err);
     await notifyDiscord(
-      discordChannel,
+      discordWebhook,
       `Repo **${repo}** creation failed ❌ please check the detailed logs at: https://github.com/defi-wonderland/repo-creatooor/actions/workflows/repo-creation.yml`
     );
   }
