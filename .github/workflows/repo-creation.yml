@@ -10,7 +10,7 @@ on:
         description: "Codeowners (default: @defi-wonderland/default-codeowner)"
         required: false
       template:
-        description: "Template (eg. defi-wonderland/solidity-hardhat-boilerplate) or empty if not from template"
+        description: "Template (eg. defi-wonderland/solidity-foundry-boilerplate)"
         required: false
 
 jobs:
