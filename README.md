@@ -16,9 +16,9 @@ The repository creator workflow allows users to create new repositories with all
    ![alt text](https://github.com/defi-wonderland/repo-creatooor/blob/main/blob/step_4.png?raw=true)
 7. After some seconds, you will find your new repository in the organization home page.
 
-## Good practices
+## Keep in mind
 
-- **Always add teams instead of individual collaborators and prioritize teams**.
+- The user that ran the worflow will have admin access to the repository. When adding more roles, **always prioritize adding teams** instead of individual collaborators.
 
 ## The repository created will have two branches, `main` (default) and `dev` with the following setup:
 
