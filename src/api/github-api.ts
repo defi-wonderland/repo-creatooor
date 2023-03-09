@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import {
   GetRefResponse,
   CreateRefPayload,
@@ -14,6 +14,8 @@ import {
   RenameBranchResponse,
   GetRepositoryResponse,
   CollaboratorsResponse,
+  Repo,
+  BranchResponse,
 } from '../types/github';
 
 export class GithubApi {
@@ -112,6 +114,11 @@ export class GithubApi {
     return data;
   }
 
+  async getBranch(owner: string, repo: string, branch: string): Promise<BranchResponse> {
+    const { data } = await this.axios.get<BranchResponse>(`/repos/${owner}/${repo}/branches/${branch}`);
+    return data;
+  }
+
   async getBranchProtection(owner: string, repo: string, branch: string): Promise<BranchProtectionResponse> {
     const { data } = await this.axios.get<BranchProtectionResponse>(`/repos/${owner}/${repo}/branches/${branch}/protection`);
     return data;
@@ -125,5 +132,12 @@ export class GithubApi {
   async getCollaborators(owner: string, repo: string): Promise<CollaboratorsResponse> {
     const { data } = await this.axios.get<CollaboratorsResponse>(`/repos/${owner}/${repo}/collaborators`);
     return data;
+  }
+
+  async listRepos(owner: string, page: number): Promise<AxiosResponse<Repo[]>> {
+    const response: AxiosResponse<Repo[]> = await this.axios.get(`https://api.github.com/orgs/${owner}/repos`, {
+      params: { per_page: 100, page: page, type: 'all' },
+    });
+    return response;
   }
 }

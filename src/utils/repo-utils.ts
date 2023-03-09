@@ -11,6 +11,7 @@ import {
   CreateRefPayload,
   CreateRepoFromTemplatePayload,
   ListBranchesResponse,
+  Repo,
 } from '../types/github';
 
 export class RepoUtils {
@@ -95,5 +96,32 @@ export class RepoUtils {
     console.log(`Renaming branch ${oldBranchName} to ${newBranchName}...`);
     await this.githubApi.renameBranch(owner, repo, oldBranchName, { new_name: newBranchName });
     console.log(`Branch ${oldBranchName} renamed to ${newBranchName}!`);
+  }
+
+  async listAllRepos(owner: string): Promise<Repo[]> {
+    console.log('Getting all repos...');
+
+    let allRepos: Repo[] = [];
+    let page = 1;
+
+    let nextPage = true;
+
+    do {
+      console.log(`Getting page ${page} of repos...`);
+      const response = await this.githubApi.listRepos(owner, page);
+      allRepos.push(...response.data);
+
+      const linkHeader = response.headers.link;
+
+      if (linkHeader) {
+        nextPage = linkHeader.includes('rel="next"');
+      }
+      page++;
+      if (response.data == null || response.data.length == 0) break;
+    } while (nextPage);
+
+    console.log(`Found ${allRepos.length} repos!`);
+    console.log('Successfuly got all repos!');
+    return allRepos;
   }
 }

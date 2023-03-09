@@ -301,3 +301,19 @@ export type CollaboratorsResponse = {
     admin: boolean;
   };
 }[];
+
+export type Repo = {
+  id: number;
+  name: string;
+  full_name: string;
+  visibility: string;
+};
+
+export type BranchResponse = {
+  name: string;
+  commit: {
+    sha: string;
+    url: string;
+  };
+  protected: boolean;
+};

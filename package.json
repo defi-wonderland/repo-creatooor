@@ -8,6 +8,7 @@
   "main": "index.js",
   "scripts": {
     "create-repo": "ts-node src/create-repo.ts && tsc",
+    "health-check": "ts-node src/repos-health-check.ts && tsc",
     "lint:check": "prettier --check './**'",
     "lint:fix": "sort-package-json && prettier --write './**'",
     "prepare": "husky install"

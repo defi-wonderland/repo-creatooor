@@ -43,7 +43,7 @@ const createRepo = async () => {
     await repoUtils.updateBranchProtection(owner, repo, 'dev', false);
     await repoUtils.requireSignature(owner, repo, 'dev');
 
-    repoCheckers.checkAll();
+    repoCheckers.runPostCreationChecks();
 
     console.log(`Link to the repo https://github.com/${owner}/${repo}`);
     notifyDiscord(discordWebhook, `Repo **${repo}** successfully created 🚀 \nLink to the repo https://github.com/${owner}/${repo}`);
