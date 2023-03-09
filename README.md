@@ -16,18 +16,7 @@ The repository creator workflow allows users to create new repositories with all
 
 - The user that ran the worflow will have admin access to the repository. When adding more roles, **always prioritize adding teams** instead of individual collaborators.
 
-## The repository created will have two branches, `main` (default) and `dev` with the following setup:
-
-**Critical**
-
-- Signed commits
-- 1-2 minimum approvals for a PR to be merged
-- Lock main/master branch and dev branch, you should only use side branches
-- Only merge to main from dev
-- Codeowners for the main branch
-- Require conversation resolution before merging
-
-**Repository Settings**
+## Repository Settings
 
 - [✓] Disable "Allow rebase merging"
 - [✓] Enable "Automatically delete head branches"
