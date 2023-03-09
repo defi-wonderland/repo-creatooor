@@ -26,7 +26,6 @@ export const defaultRepoCreateConfig = (owner: string, name: string, description
   merge_commit_message: 'PR_BODY',
 });
 
-
 export const defaultRepoUpdateConfig = (owner: string, name: string, description: string) => ({
   org: owner,
   name: name,
