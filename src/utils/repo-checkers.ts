@@ -5,7 +5,14 @@ import { RepoPayload, UpdateBranchProtectionPayload } from '../types/github';
 export type Assertion = { condition: boolean; message: string };
 
 export class RepoCheckers {
-  constructor(private githubApi: GithubApi, private owner: string, private repo: string, private template: string = '', private admin: string, private logInfo: boolean = true) {}
+  constructor(
+    private githubApi: GithubApi,
+    private owner: string,
+    private repo: string,
+    private template: string = '',
+    private admin: string,
+    private logInfo: boolean = true
+  ) {}
 
   log(logData: string) {
     if (this.logInfo) {
@@ -248,16 +255,19 @@ export class RepoCheckers {
   }
 
   async runAllReposHealthChecks(): Promise<Assertion[]> {
-    const repoData = await this.githubApi.getRepository(this.owner, this.repo);
     let assertions: Assertion[] = [];
-    if (repoData.private == false || repoData.visibility == 'public') {
-      assertions = [...await this.getPublicRepoBranchAssertions('main'), ...await this.getPublicRepoBranchAssertions('dev')];
-    } else {
-      assertions = [
-        ...await this.getRepoAssertions(false),
-        ...await this.getBranchAssertions('main'),
-        ...await this.getBranchAssertions('dev'),
-      ];
+    assertions = [
+      ...(await this.getRepoAssertions(false)),
+      ...(await this.getBranchAssertions('main')),
+      ...(await this.getBranchAssertions('dev')),
+    ];
+    const hasIssues = assertions.find((assertion) => assertion.condition == false);
+    if (hasIssues) {
+      const repoData = await this.githubApi.getRepository(this.owner, this.repo);
+      // If the repo is public and does not comply with the default checks, check if it's locked
+      if (repoData.private == false || repoData.visibility == 'public') {
+        assertions = [...(await this.getPublicRepoBranchAssertions('main')), ...(await this.getPublicRepoBranchAssertions('dev'))];
+      }
     }
 
     return assertions;

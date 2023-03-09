@@ -22,22 +22,24 @@ const healthCheck = async () => {
   const trigger = getEnvVariable('GH_USER_CREATOR');
   await notifyDiscord(discordWebhook, `***${trigger} triggered Wonderland github repos health check*** 🏥`);
 
-  console.log('Running health checks on all repos...')
-  await Promise.all(allRepos.map(async (repo) => {
-    const checkers = new RepoCheckers(githubApi, owner, repo.name, '', '', false);
-    const assertions = await checkers.runAllReposHealthChecks();
-    const hasIssues: boolean = assertions.find((assertion) => assertion.condition == false) != undefined;
-    const diagnosis: RepoDiagnostic = {
-      name: repo.name,
-      assertions: assertions,
-      hasIssues: hasIssues,
-    };
-    diagnoses.push(diagnosis);
-  }));
+  console.log('Running health checks on all repos...');
+  await Promise.all(
+    allRepos.map(async (repo) => {
+      const checkers = new RepoCheckers(githubApi, owner, repo.name, '', '', false);
+      const assertions = await checkers.runAllReposHealthChecks();
+      const hasIssues: boolean = assertions.find((assertion) => assertion.condition == false) != undefined;
+      const diagnosis: RepoDiagnostic = {
+        name: repo.name,
+        assertions: assertions,
+        hasIssues: hasIssues,
+      };
+      diagnoses.push(diagnosis);
+    })
+  );
 
   const issues = diagnoses.filter((diagnosis) => diagnosis.hasIssues);
   let message = '💈💈💈 ***Hall of Shame*** 💈💈💈';
-  const title = `***Found ${issues.length} repos with issues ***`
+  const title = `***Found ${issues.length} repos with issues ***`;
   console.log(title);
 
   issues.forEach((issue) => {
@@ -46,7 +48,7 @@ const healthCheck = async () => {
     console.log(msg);
     for (const assertion of issue.assertions) {
       if (assertion.condition == false) {
-        const msg = `\n       • ${assertion.message}`
+        const msg = `\n       • ${assertion.message}`;
         message = message + msg;
         console.log(msg);
       }
@@ -54,17 +56,17 @@ const healthCheck = async () => {
   });
 
   if (issues.length > 0) {
-    await notifyDiscord(
-      discordWebhook,
-      `${title}\n\n${message}`
-    );
+    await notifyDiscord(discordWebhook, `${title}\n\n${message}`);
     throw new Error('Please fix the issues specified above');
   } else {
-    await notifyDiscord(discordWebhook, `${title}
+    await notifyDiscord(
+      discordWebhook,
+      `${title}
 
 ⛵  Sigh, at this rate the healthcare system will go bankrupt.
 
-Consider introducing some bugs for Captain Hook 💸 🪝`);
+Consider introducing some bugs for Captain Hook 💸 🪝`
+    );
   }
 };
 

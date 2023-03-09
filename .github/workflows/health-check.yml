@@ -1,7 +1,6 @@
 name: Repo creation
 
-on:
-  workflow_dispatch
+on: workflow_dispatch
 
 jobs:
   create_repo:
