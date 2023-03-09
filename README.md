@@ -4,17 +4,17 @@ The repository creator workflow allows users to create new repositories with all
 
 ## How to use it?
 
-1. Click on the **actions** button and then click on the "Repo creation" action.
+1. Click on the **Actions** button and then click on the "Repo creation" action.
 2. Click on **Run Workflow**.
 3. Fill in the mandatory field **Repository name**.
-4. If needed fill the codeowners field, if not the codeowners will be **@defi-wonderland/default-codeowner**.
-5. If you are creating the repo from a template fill the template field (eg. defi-wonderland/solidity-hardhat-boilerplate), if not leave it empty.
+4. If needed fill in the codeowners field, if not the codeowners will be **@defi-wonderland/default-codeowner**.
+5. If you are creating the repo from a template fill in the template field (eg. defi-wonderland/solidity-hardhat-boilerplate), if not leave it empty.
 6. Click on **Run Workflow**.
-7. After some seconds, you will find your new repository in the organization home page.
+7. After some seconds, you will find your new repository on the organization's home page.
 
 ## Keep in mind
 
-- The user that ran the worflow will have admin access to the repository. When adding more roles, **always prioritize adding teams** instead of individual collaborators.
+- The user that ran the workflow will have admin access to the repository. When adding more roles, **always prioritize adding teams** instead of individual collaborators.
 
 ## Repository Settings
 
