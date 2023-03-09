@@ -46,4 +46,3 @@ The repository creator workflow allows users to create new repositories with all
   - [✓] Enable "Require status checks to pass before merging"
   - [✓] Enable "Require branches to be up to date before merging"
   - [✓] Enable "Require signed commits"
-
