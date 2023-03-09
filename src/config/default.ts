@@ -26,20 +26,19 @@ export const defaultRepoCreateConfig = (owner: string, name: string, description
   merge_commit_message: 'PR_BODY',
 });
 
+
 export const defaultRepoUpdateConfig = (owner: string, name: string, description: string) => ({
   org: owner,
   name: name,
   description: description,
   homepage: 'https://defi.sucks/',
   private: true,
-  visibility: 'private',
   has_issues: true,
   has_projects: true,
   has_wiki: true,
   default_branch: 'dev',
   auto_init: true,
   has_downloads: true,
-  is_template: false,
   allow_squash_merge: true,
   allow_merge_commit: true,
   allow_rebase_merge: false,

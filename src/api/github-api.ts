@@ -14,6 +14,7 @@ import {
   RenameBranchResponse,
   GetRepositoryResponse,
   CollaboratorsResponse,
+  UpdateRepoPayload,
 } from '../types/github';
 
 export class GithubApi {
@@ -31,7 +32,7 @@ export class GithubApi {
     return data;
   }
 
-  async updateRepo(owner: string, repo: string, updateRepoPayload: RepoPayload): Promise<RepoResponse> {
+  async updateRepo(owner: string, repo: string, updateRepoPayload: UpdateRepoPayload): Promise<RepoResponse> {
     const { data } = await this.axios.patch<RepoResponse>(`/repos/${owner}/${repo}`, updateRepoPayload);
     return data;
   }

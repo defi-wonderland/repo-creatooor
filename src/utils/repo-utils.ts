@@ -11,6 +11,7 @@ import {
   CreateRefPayload,
   CreateRepoFromTemplatePayload,
   ListBranchesResponse,
+  UpdateRepoPayload,
 } from '../types/github';
 
 export class RepoUtils {
@@ -28,7 +29,7 @@ export class RepoUtils {
   async updateRepo(owner: string, repoName: string, repoDescription: string): Promise<void> {
     console.log('........................................');
     console.log(`Updating repo ${repoName}...`);
-    const updateRepoPayload: RepoPayload = defaultRepoUpdateConfig(owner, repoName, repoDescription);
+    const updateRepoPayload: UpdateRepoPayload = defaultRepoUpdateConfig(owner, repoName, repoDescription);
 
     const data = await this.githubApi.updateRepo(owner, repoName, updateRepoPayload);
     console.log(`Repo ${data.name} updated!`);
