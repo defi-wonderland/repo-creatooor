@@ -5,15 +5,11 @@ The repository creator workflow allows users to create new repositories with all
 ## How to use it?
 
 1. Click on the **actions** button and then click on the "Repo creation" action.
-   ![alt text](https://github.com/defi-wonderland/repo-creatooor/blob/main/blob/step_1.png?raw=true)
-   ![alt text](https://github.com/defi-wonderland/repo-creatooor/blob/main/blob/step_2.png?raw=true)
 2. Click on **Run Workflow**.
-   ![alt text](https://github.com/defi-wonderland/repo-creatooor/blob/main/blob/step_3.png?raw=true)
 3. Fill in the mandatory field **Repository name**.
 4. If needed fill the codeowners field, if not the codeowners will be **@defi-wonderland/default-codeowner**.
 5. If you are creating the repo from a template fill the template field (eg. defi-wonderland/solidity-hardhat-boilerplate), if not leave it empty.
 6. Click on **Run Workflow**.
-   ![alt text](https://github.com/defi-wonderland/repo-creatooor/blob/main/blob/step_4.png?raw=true)
 7. After the repository is created, a link to the new repository will be provided.
 
 ## Good practices
