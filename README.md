@@ -14,7 +14,7 @@ The repository creator workflow allows users to create new repositories with all
 5. If you are creating the repo from a template fill the template field (eg. defi-wonderland/solidity-hardhat-boilerplate), if not leave it empty.
 6. Click on **Run Workflow**.
    ![alt text](https://github.com/defi-wonderland/repo-creatooor/blob/main/blob/step_4.png?raw=true)
-7. After the repository is created, a link to the new repository will be provided.
+7. After some seconds, you will find your new repository in the organization home page.
 
 ## Good practices
 
