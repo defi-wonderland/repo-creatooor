@@ -262,9 +262,9 @@ export class RepoCheckers {
     if (repoData.private == false || repoData.visibility == 'public') {
       // Checks that all branches of the public repo are locked
       const branches = await this.githubApi.listBranches(this.owner, this.repo);
-      branches.forEach(async (branch) => {
-        assertions.push(...((await this.getPublicRepoBranchAssertions(branch.name)) as Assertion[]));
-      });
+      for (const branch of branches) {
+        assertions.push(...(await this.getPublicRepoBranchAssertions(branch.name)));
+      }
     } else {
       assertions = [
         ...(await this.getRepoAssertions(false)),
