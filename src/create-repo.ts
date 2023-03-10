@@ -27,16 +27,12 @@ const createRepo = async () => {
       await repoUtils.createRepo(owner, repo, '');
     }
 
-    const branches = await repoUtils.listBranches(owner, repo);
-
-    if (branches[0].name != 'main') {
-      await repoUtils.renameBranch(owner, repo, branches[0].name, 'main');
-    }
+    // Check or create main branch
+    await repoUtils.checkBranchExistsOrCreate(owner, repo, 'main');
 
     await repoUtils.addCodeowners(owner, repo, codeowner == '' ? 'defi-wonderland/default-codeowner' : codeowner);
     await repoUtils.addCollaborator(owner, repo, admin, 'admin');
-    const sha = await repoUtils.getMainBrancRef(owner, repo);
-    await repoUtils.createBranch(owner, repo, 'dev', sha);
+    await repoUtils.checkBranchExistsOrCreate(owner, repo, 'dev', 'main');
     await repoUtils.updateRepo(owner, repo, '');
     await repoUtils.updateBranchProtection(owner, repo, 'main', true);
     await repoUtils.requireSignature(owner, repo, 'main');

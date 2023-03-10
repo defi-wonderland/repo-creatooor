@@ -1,6 +1,7 @@
 import { GithubApi } from '../api/github-api';
 import {
   defaultBranchProtectionConfig,
+  defaultBranchProtectionPublicConfig,
   defaultCreateRepoFromTemplateConfig,
   defaultRepoCreateConfig,
   defaultRepoUpdateConfig,
@@ -44,10 +45,17 @@ export class RepoUtils {
     console.log(`Branch protection updated!`);
   }
 
-  async getMainBrancRef(owner: string, repoName: string): Promise<string> {
-    console.log('Getting main branch ref...');
-    const data = await this.githubApi.getRef(owner, repoName, 'heads/main');
-    console.log('Successfuly got main branch ref!');
+  async updatePublicBranchProtection(owner: string, repoName: string, branchName: string): Promise<void> {
+    console.log('Updating public branch protection...');
+    const updateBranchProtectionPayload: UpdateBranchProtectionPayload = defaultBranchProtectionPublicConfig();
+    await this.githubApi.updateBranchProtection(owner, repoName, branchName, updateBranchProtectionPayload);
+    console.log(`Branch protection updated!`);
+  }
+
+  async getBranchRef(owner: string, repoName: string, branchName: string): Promise<string> {
+    console.log(`Getting ${branchName} branch ref...`);
+    const data = await this.githubApi.getRef(owner, repoName, `heads/${branchName}`);
+    console.log(`Successfuly got ${branchName} branch ref!`);
     return data.object.sha;
   }
 
@@ -59,6 +67,22 @@ export class RepoUtils {
     };
     await this.githubApi.createRef(owner, repoName, createRefPayload);
     console.log(`Branch ${branchName} created!`);
+  }
+
+  async checkBranchExistsOrCreate(owner: string, repoName: string, branchName: string, fromBranch: string | null = null): Promise<void> {
+    console.log(`Checking if ${branchName} branch exists...`);
+    const branches = await this.githubApi.listBranches(owner, repoName);
+    const hasBranch = branches.find((branch) => branch.name == branchName) != undefined;
+    if (!hasBranch) {
+      console.log(`${branchName} branch does not exist!, creating...`);
+      // If fromBranch is not provided, use the default branch
+      if (fromBranch == null) {
+        fromBranch = (await this.githubApi.getRepository(owner, repoName)).default_branch;
+      }
+
+      const sha = await this.getBranchRef(owner, repoName, fromBranch);
+      await this.createBranch(owner, repoName, branchName, sha);
+    }
   }
 
   async requireSignature(owner: string, repoName: string, branchName: string): Promise<void> {

@@ -68,6 +68,24 @@ export const defaultBranchProtectionConfig = (isMainBranch: boolean) => ({
   lock_branch: false,
 });
 
+export const defaultBranchProtectionPublicConfig = () => ({
+  required_status_checks: {
+    strict: true,
+    contexts: [],
+  },
+  required_pull_request_reviews: {
+    dismiss_stale_reviews: true,
+    require_code_owner_reviews: true,
+    required_approving_review_count: 2,
+    require_last_push_approval: true,
+  },
+  enforce_admins: true,
+  restrictions: null,
+  allow_force_pushes: false,
+  allow_deletions: false,
+  lock_branch: true,
+});
+
 export const defaultCreateRepoFromTemplateConfig = (owner: string, repo: string) => ({
   owner: owner,
   name: repo,
