@@ -20,7 +20,10 @@ const healthCheck = async () => {
   const discordWebhook = getEnvVariableOrEmpty('DISCORD_WEBHOOK');
 
   const trigger = getEnvVariable('GH_USER_CREATOR');
-  await notifyDiscord(discordWebhook, `***${trigger} triggered Wonderland github repos health check*** 🏥\nhttps://github.com/defi-wonderland/repo-creatooor/actions/workflows/health-check.yml`);
+  await notifyDiscord(
+    discordWebhook,
+    `***${trigger} triggered Wonderland github repos health check*** 🏥\nhttps://github.com/defi-wonderland/repo-creatooor/actions/workflows/health-check.yml`
+  );
 
   console.info('Running health checks on all repos...');
   await Promise.all(
