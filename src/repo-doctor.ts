@@ -20,7 +20,6 @@ const healRepo = async () => {
     console.info(message);
     notifyDiscord(discordWebhook, message);
 
-   
     message = `Diagnosing **${repo}** 🩸🔬...`;
     console.info(message);
     notifyDiscord(discordWebhook, message);
