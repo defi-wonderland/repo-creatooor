@@ -1,9 +1,9 @@
-name: Repo creation
+name: Health check
 
 on: workflow_dispatch
 
 jobs:
-  create_repo:
+  health_check:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile --network-concurrency 1
 
-      - name: Create repo steps
+      - name: Health check steps
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_OWNER: ${{ vars.GH_OWNER }}

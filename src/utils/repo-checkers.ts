@@ -16,7 +16,7 @@ export class RepoCheckers {
 
   log(logData: string) {
     if (this.logInfo) {
-      this.log(logData);
+      console.info(logData);
     }
   }
 
@@ -256,18 +256,21 @@ export class RepoCheckers {
 
   async runAllReposHealthChecks(): Promise<Assertion[]> {
     let assertions: Assertion[] = [];
-    assertions = [
-      ...(await this.getRepoAssertions(false)),
-      ...(await this.getBranchAssertions('main')),
-      ...(await this.getBranchAssertions('dev')),
-    ];
-    const hasIssues = assertions.find((assertion) => assertion.condition == false);
-    if (hasIssues) {
-      const repoData = await this.githubApi.getRepository(this.owner, this.repo);
-      // If the repo is public and does not comply with the default checks, check if it's locked
-      if (repoData.private == false || repoData.visibility == 'public') {
-        assertions = [...(await this.getPublicRepoBranchAssertions('main')), ...(await this.getPublicRepoBranchAssertions('dev'))];
-      }
+
+    const repoData = await this.githubApi.getRepository(this.owner, this.repo);
+
+    if (repoData.private == false || repoData.visibility == 'public') {
+      // Checks that all branches of the public repo are locked
+      const branches = await this.githubApi.listBranches(this.owner, this.repo);
+      branches.forEach(async (branch) => {
+        assertions.push(... (await this.getPublicRepoBranchAssertions(branch.name) as Assertion[]));
+      });
+    } else {
+      assertions = [
+        ...(await this.getRepoAssertions(false)),
+        ...(await this.getBranchAssertions('main')),
+        ...(await this.getBranchAssertions('dev')),
+      ];
     }
 
     return assertions;

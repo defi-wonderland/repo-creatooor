@@ -20,9 +20,9 @@ const healthCheck = async () => {
   const discordWebhook = getEnvVariableOrEmpty('DISCORD_WEBHOOK');
 
   const trigger = getEnvVariable('GH_USER_CREATOR');
-  await notifyDiscord(discordWebhook, `***${trigger} triggered Wonderland github repos health check*** 🏥`);
+  await notifyDiscord(discordWebhook, `***${trigger} triggered Wonderland github repos health check*** 🏥\nhttps://github.com/defi-wonderland/repo-creatooor/actions/workflows/health-check.yml`);
 
-  console.log('Running health checks on all repos...');
+  console.info('Running health checks on all repos...');
   await Promise.all(
     allRepos.map(async (repo) => {
       const checkers = new RepoCheckers(githubApi, owner, repo.name, '', '', false);
@@ -40,17 +40,17 @@ const healthCheck = async () => {
   const issues = diagnoses.filter((diagnosis) => diagnosis.hasIssues);
   let message = '💈💈💈 ***Hall of Shame*** 💈💈💈';
   const title = `***Found ${issues.length} repos with issues ***`;
-  console.log(title);
+  console.info(title);
 
   issues.forEach((issue) => {
     const msg = `\n\n🛡️ ***${issue.name}***:`;
     message = message + msg;
-    console.log(msg);
+    console.info(msg);
     for (const assertion of issue.assertions) {
       if (assertion.condition == false) {
         const msg = `\n       • ${assertion.message}`;
         message = message + msg;
-        console.log(msg);
+        console.info(msg);
       }
     }
   });
