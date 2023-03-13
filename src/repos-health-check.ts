@@ -28,7 +28,7 @@ type RepoDiagnostic = {
   console.info('Running health checks on all repos...');
 
   for (const repo of allRepos) {
-    const checkers = new RepoCheckers(githubApi, owner, repo.name, '', '', false);
+    const checkers = new RepoCheckers(githubApi, owner, repo.name, '', '', true);
     const assertions = await checkers.runAllReposHealthChecks();
     const hasIssues: boolean = assertions.find((assertion) => assertion.condition == false) != undefined;
     const diagnosis: RepoDiagnostic = {
