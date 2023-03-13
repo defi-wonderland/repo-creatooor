@@ -4,7 +4,7 @@ import { getEnvVariable, getEnvVariableOrEmpty } from './utils/env';
 import { RepoCheckers } from './utils/repo-checkers';
 import { RepoUtils } from './utils/repo-utils';
 
-const healRepo = async () => {
+(async () => {
   const token = getEnvVariable('GH_TOKEN');
   const githubApi = new GithubApi(token);
   const owner = getEnvVariable('GH_OWNER');
@@ -72,13 +72,13 @@ const healRepo = async () => {
         checkers.assertAll(issuesAfterFix);
       } else {
         message = `After applying fixes 🛌💉💊 **${repo}** is now healthy 🏥\nLink to the repo https://github.com/${owner}/${repo}`;
-        console.log(message);
+        console.info(message);
         notifyDiscord(discordWebhook, message);
       }
     } else {
       message = `***After running tests ${repo} is healthy 🏥***`;
       notifyDiscord(discordWebhook, message);
-      console.log(message);
+      console.info(message);
     }
   } catch (err) {
     console.error(err);
@@ -86,6 +86,4 @@ const healRepo = async () => {
     console.info(message);
     notifyDiscord(discordWebhook, message);
   }
-};
-
-healRepo();
+})();

@@ -10,7 +10,7 @@ type RepoDiagnostic = {
   hasIssues: boolean;
 };
 
-const healthCheck = async () => {
+(async () => {
   const diagnoses: RepoDiagnostic[] = [];
   const token = getEnvVariable('GH_TOKEN');
   const githubApi = new GithubApi(token);
@@ -26,19 +26,18 @@ const healthCheck = async () => {
   );
 
   console.info('Running health checks on all repos...');
-  await Promise.all(
-    allRepos.map(async (repo) => {
-      const checkers = new RepoCheckers(githubApi, owner, repo.name, '', '', false);
-      const assertions = await checkers.runAllReposHealthChecks();
-      const hasIssues: boolean = assertions.find((assertion) => assertion.condition == false) != undefined;
-      const diagnosis: RepoDiagnostic = {
-        name: repo.name,
-        assertions: assertions,
-        hasIssues: hasIssues,
-      };
-      diagnoses.push(diagnosis);
-    })
-  );
+
+  for (const repo of allRepos) {
+    const checkers = new RepoCheckers(githubApi, owner, repo.name, '', '', true);
+    const assertions = await checkers.runAllReposHealthChecks();
+    const hasIssues: boolean = assertions.find((assertion) => assertion.condition == false) != undefined;
+    const diagnosis: RepoDiagnostic = {
+      name: repo.name,
+      assertions: assertions,
+      hasIssues: hasIssues,
+    };
+    diagnoses.push(diagnosis);
+  }
 
   const issues = diagnoses.filter((diagnosis) => diagnosis.hasIssues);
   let message = '💈💈💈 ***Hall of Shame*** 💈💈💈';
@@ -46,22 +45,20 @@ const healthCheck = async () => {
   console.info(title);
 
   issues.forEach((issue) => {
-    const msg = `\n\n🛡️ ***${issue.name}***:`;
-    message = message + msg;
-    console.info(msg);
+    message = message + `\n\n🛡️ ***${issue.name}***:`;
     for (const assertion of issue.assertions) {
       if (assertion.condition == false) {
-        const msg = `\n       • ${assertion.message}`;
-        message = message + msg;
-        console.info(msg);
+        message = message + `\n       • ${assertion.message}`;
       }
     }
   });
 
   if (issues.length > 0) {
     await notifyDiscord(discordWebhook, `${title}\n\n${message}`);
+    console.log(message);
     throw new Error('Please fix the issues specified above');
   } else {
+    console.info('No issues found in any of the repositories! 🎉');
     await notifyDiscord(
       discordWebhook,
       `${title}
@@ -71,6 +68,4 @@ const healthCheck = async () => {
 Consider introducing some bugs for Captain Hook 💸 🪝`
     );
   }
-};
-
-healthCheck();
+})();
