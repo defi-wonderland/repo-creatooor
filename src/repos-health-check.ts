@@ -45,22 +45,20 @@ type RepoDiagnostic = {
   console.info(title);
 
   issues.forEach((issue) => {
-    const msg = `\n\n🛡️ ***${issue.name}***:`;
-    message = message + msg;
-    console.info(msg);
+    message = message + `\n\n🛡️ ***${issue.name}***:`;
     for (const assertion of issue.assertions) {
       if (assertion.condition == false) {
-        const msg = `\n       • ${assertion.message}`;
-        message = message + msg;
-        console.info(msg);
+        message = message + `\n       • ${assertion.message}`;
       }
     }
   });
 
   if (issues.length > 0) {
     await notifyDiscord(discordWebhook, `${title}\n\n${message}`);
+    console.log(message);
     throw new Error('Please fix the issues specified above');
   } else {
+    console.info('No issues found in any of the repositories! 🎉');
     await notifyDiscord(
       discordWebhook,
       `${title}
