@@ -168,12 +168,12 @@ export type RepoResponse = {
 };
 
 export type UpdateBranchProtectionPayload = {
-  required_status_checks: {
+  required_status_checks?: {
     strict: boolean;
     contexts: string[];
   };
   enforce_admins: boolean;
-  required_pull_request_reviews: {
+  required_pull_request_reviews?: {
     dismiss_stale_reviews: boolean;
     require_code_owner_reviews: boolean;
     required_approving_review_count: number;
