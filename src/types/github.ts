@@ -187,7 +187,7 @@ export type UpdateBranchProtectionPayload = {
 
 export type BranchProtectionResponse = {
   url: string;
-  required_status_checks: {
+  required_status_checks?: {
     url: string;
     strict: boolean;
     contexts: string[];
@@ -206,7 +206,7 @@ export type BranchProtectionResponse = {
     teams: any[];
     apps: any[];
   };
-  required_pull_request_reviews: {
+  required_pull_request_reviews?: {
     url: string;
     dismiss_stale_reviews: boolean;
     require_code_owner_reviews: boolean;

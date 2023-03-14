@@ -143,7 +143,7 @@ export class RepoCheckers {
     this.log(`Checking required reviews count is ${config.required_pull_request_reviews.required_approving_review_count}`);
     branchAssertions.push({
       condition:
-        branchData.required_pull_request_reviews.required_approving_review_count ==
+        branchData.required_pull_request_reviews?.required_approving_review_count ==
         config.required_pull_request_reviews.required_approving_review_count,
       message: `Repo ${this.repo} does not have required reviews count of ${config.required_pull_request_reviews.required_approving_review_count} for ${branchName} branch`,
     });
@@ -151,20 +151,20 @@ export class RepoCheckers {
     this.log(`Checking require code owner reviews is ${config.required_pull_request_reviews.require_code_owner_reviews}...`);
     branchAssertions.push({
       condition:
-        branchData.required_pull_request_reviews.require_code_owner_reviews == config.required_pull_request_reviews.require_code_owner_reviews,
+        branchData.required_pull_request_reviews?.require_code_owner_reviews == config.required_pull_request_reviews.require_code_owner_reviews,
       message: `Repo ${this.repo} require code owner reviews is not ${config.required_pull_request_reviews.require_code_owner_reviews} for ${branchName} branch`,
     });
 
     this.log(`Checking require last push approval is ${config.required_pull_request_reviews.require_last_push_approval}...`);
     branchAssertions.push({
       condition:
-        branchData.required_pull_request_reviews.require_last_push_approval == config.required_pull_request_reviews.require_last_push_approval,
+        branchData.required_pull_request_reviews?.require_last_push_approval == config.required_pull_request_reviews.require_last_push_approval,
       message: `Repo ${this.repo} require last push approval is not ${config.required_pull_request_reviews.require_last_push_approval} for ${branchName} branch`,
     });
 
     this.log(`Checking dismiss stale reviews is ${config.required_pull_request_reviews.dismiss_stale_reviews}...`);
     branchAssertions.push({
-      condition: branchData.required_pull_request_reviews.dismiss_stale_reviews == config.required_pull_request_reviews.dismiss_stale_reviews,
+      condition: branchData.required_pull_request_reviews?.dismiss_stale_reviews == config.required_pull_request_reviews.dismiss_stale_reviews,
       message: `Repo ${this.repo} dismiss stale reviews is not ${config.required_pull_request_reviews.dismiss_stale_reviews} for ${branchName} branch`,
     });
 
@@ -176,7 +176,7 @@ export class RepoCheckers {
 
     this.log(`Checking require status checks is ${config.required_status_checks.strict}...`);
     branchAssertions.push({
-      condition: branchData.required_status_checks.strict == config.required_status_checks.strict,
+      condition: branchData.required_status_checks?.strict == config.required_status_checks.strict,
       message: `Repo ${this.repo} require status checks is not ${config.required_status_checks.strict} for ${branchName} branch`,
     });
 
