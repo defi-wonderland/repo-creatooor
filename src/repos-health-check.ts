@@ -1,6 +1,6 @@
 import { GithubApi } from './api/github-api';
 import { notifyDiscord } from './utils/discord';
-import { getEnvVariable, getEnvVariableOrEmpty } from './utils/env';
+import { getEnvVariable } from './utils/env';
 import { Assertion, RepoCheckers } from './utils/repo-checkers';
 import { RepoUtils } from './utils/repo-utils';
 
