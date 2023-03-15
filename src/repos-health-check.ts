@@ -48,6 +48,7 @@ type RepoDiagnostic = {
     await notifyDiscord(discordWebhook, message);
   }
 
+  let messageBuffer = '';
   for (const issue of issues) {
     let message = `\n\n🛡️ ***${issue.name}***:`;
     for (const assertion of issue.assertions) {
@@ -56,9 +57,19 @@ type RepoDiagnostic = {
       }
     }
     console.log(message);
-    await notifyDiscord(discordWebhook, message);
+
+    if (messageBuffer.length + message.length > 2000) {
+      await notifyDiscord(discordWebhook, messageBuffer);
+      messageBuffer = '';
+    } else {
+      messageBuffer = messageBuffer + message;
+    }
     // Wait for 1 second to avoid hitting the rate limit
     await new Promise((f) => setTimeout(f, 1000));
+  }
+
+  if (messageBuffer.length > 0) {
+    await notifyDiscord(discordWebhook, messageBuffer);
   }
 
   if (issues.length > 0) {
