@@ -17,13 +17,16 @@ type RepoDiagnostic = {
   const owner = getEnvVariable('GH_OWNER');
   const repoUtils = new RepoUtils(githubApi);
   const allRepos = await repoUtils.listAllRepos(owner);
+  console.log(`Found ${allRepos.length} repos in ${owner} org`);
   const discordWebhook = getEnvVariable('DISCORD_WEBHOOK');
+  console.log(`Discord webhook: ${discordWebhook}`);
 
   const trigger = getEnvVariable('GH_USER_CREATOR');
   await notifyDiscord(
     discordWebhook,
     `***${trigger} triggered Wonderland github repos health check*** 🏥\nhttps://github.com/defi-wonderland/repo-creatooor/actions/workflows/health-check.yml`
   );
+  console.log(`Triggered by ${trigger}`);
 
   console.info('Running health checks on all repos...');
 
