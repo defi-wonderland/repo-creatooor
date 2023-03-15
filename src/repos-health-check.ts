@@ -17,7 +17,7 @@ type RepoDiagnostic = {
   const owner = getEnvVariable('GH_OWNER');
   const repoUtils = new RepoUtils(githubApi);
   const allRepos = await repoUtils.listAllRepos(owner);
-  const discordWebhook = getEnvVariableOrEmpty('DISCORD_WEBHOOK');
+  const discordWebhook = getEnvVariable('DISCORD_WEBHOOK');
 
   const trigger = getEnvVariable('GH_USER_CREATOR');
   await notifyDiscord(
