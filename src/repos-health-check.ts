@@ -17,7 +17,6 @@ type RepoDiagnostic = {
   const owner = getEnvVariable('GH_OWNER');
   const repoUtils = new RepoUtils(githubApi);
   const allRepos = await repoUtils.listAllRepos(owner);
-  console.log(`Found ${allRepos.length} repos in ${owner} org`);
   const discordWebhook = getEnvVariableOrEmpty('DISCORD_WEBHOOK');
   const trigger = getEnvVariable('GH_USER_CREATOR');
 
@@ -63,7 +62,7 @@ type RepoDiagnostic = {
   }
 
   if (issues.length > 0) {
-    const message = `\n\nPlease fix the issues! or run repo-doctor 🩺 to fix them automatically.`;
+    const message = `\n\nPlease fix the issues! or run repo-doctor 👨‍⚕️🩺 to fix them automatically.`;
     await notifyDiscord(discordWebhook, message);
     throw new Error(message);
   } else {
