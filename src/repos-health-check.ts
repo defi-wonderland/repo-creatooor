@@ -1,6 +1,6 @@
 import { GithubApi } from './api/github-api';
 import { notifyDiscord } from './utils/discord';
-import { getEnvVariable } from './utils/env';
+import { getEnvVariable, getEnvVariableOrEmpty } from './utils/env';
 import { Assertion, RepoCheckers } from './utils/repo-checkers';
 import { RepoUtils } from './utils/repo-utils';
 
@@ -18,15 +18,13 @@ type RepoDiagnostic = {
   const repoUtils = new RepoUtils(githubApi);
   const allRepos = await repoUtils.listAllRepos(owner);
   console.log(`Found ${allRepos.length} repos in ${owner} org`);
-  const discordWebhook = getEnvVariable('DISCORD_WEBHOOK');
-  console.log(`Discord webhook: ${discordWebhook}`);
-
+  const discordWebhook = getEnvVariableOrEmpty('DISCORD_WEBHOOK');
   const trigger = getEnvVariable('GH_USER_CREATOR');
+
   await notifyDiscord(
     discordWebhook,
     `***${trigger} triggered Wonderland github repos health check*** 🏥\nhttps://github.com/defi-wonderland/repo-creatooor/actions/workflows/health-check.yml`
   );
-  console.log(`Triggered by ${trigger}`);
 
   console.info('Running health checks on all repos...');
 
@@ -46,7 +44,7 @@ type RepoDiagnostic = {
 
   const title = `***Found ${issues.length} repos with issues ***`;
   if (issues.length > 0) {
-    const message = `💈💈💈 ***Hall of Shame*** 💈💈💈`;
+    const message = `${title}\n💈💈💈 ***Hall of Shame*** 💈💈💈`;
     console.info(message);
     await notifyDiscord(discordWebhook, message);
   }
@@ -60,6 +58,8 @@ type RepoDiagnostic = {
     }
     console.log(message);
     await notifyDiscord(discordWebhook, message);
+    // Wait for 1 second to avoid hitting the rate limit
+    await new Promise((f) => setTimeout(f, 1000));
   }
 
   if (issues.length > 0) {
