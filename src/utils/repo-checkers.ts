@@ -64,12 +64,6 @@ export class RepoCheckers {
       });
     }
 
-    this.log(`Checking repo has homepage is ${config.homepage}`);
-    repoAssertions.push({
-      condition: repoData.homepage == config.homepage,
-      message: `Repo homepage ${repoData.homepage} is not ${config.homepage}`,
-    });
-
     this.log(`Checking repo is private is ${config.private}...`);
     repoAssertions.push({ condition: repoData.private == config.private, message: `Repo ${this.repo} private is not ${config.private}` });
 
