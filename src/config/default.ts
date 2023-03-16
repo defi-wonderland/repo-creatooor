@@ -30,7 +30,6 @@ export const defaultRepoUpdateConfig = (owner: string, name: string, description
   org: owner,
   name: name,
   description: description,
-  homepage: null,
   private: true,
   has_issues: true,
   has_projects: true,
