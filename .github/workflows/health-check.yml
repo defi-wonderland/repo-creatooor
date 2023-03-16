@@ -5,6 +5,7 @@ on: workflow_dispatch
 jobs:
   health_check:
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       - name: Check out github repository
