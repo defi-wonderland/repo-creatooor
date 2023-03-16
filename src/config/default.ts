@@ -5,7 +5,6 @@ export const defaultRepoCreateConfig = (owner: string, name: string, description
   name: name,
   description: description,
   private: true,
-  visibility: 'private',
   has_issues: true,
   has_projects: true,
   has_wiki: true,

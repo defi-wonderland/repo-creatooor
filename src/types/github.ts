@@ -19,7 +19,6 @@ export type RepoPayload = {
   org: string;
   description: string;
   private: boolean;
-  visibility: string;
   has_issues: boolean;
   has_projects: boolean;
   has_wiki: boolean;
