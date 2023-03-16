@@ -18,7 +18,6 @@ export type RepoPayload = {
   name: string;
   org: string;
   description: string;
-  homepage: string;
   private: boolean;
   visibility: string;
   has_issues: boolean;
@@ -44,7 +43,6 @@ export type UpdateRepoPayload = {
   name: string;
   org: string;
   description: string;
-  homepage: string;
   private: boolean;
   has_issues: boolean;
   has_projects: boolean;
