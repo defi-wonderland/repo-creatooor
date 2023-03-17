@@ -70,7 +70,7 @@ export class RepoUtils {
   }
 
   async checkBranchExistsOrCreate(owner: string, repoName: string, branchName: string, fromBranch: string | null = null): Promise<void> {
-    if (await this.checkBranchExists(owner, repoName, branchName) == false) {
+    if ((await this.checkBranchExists(owner, repoName, branchName)) == false) {
       console.log(`${branchName} branch does not exist!, creating...`);
       // If fromBranch is not provided, use the default branch
       if (fromBranch == null) {
