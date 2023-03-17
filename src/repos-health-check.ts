@@ -18,8 +18,8 @@ type RepoDiagnostic = {
   const repoUtils = new RepoUtils(githubApi);
   const allRepos = await repoUtils.listAllRepos(owner);
   const discordWebhook = getEnvVariableOrEmpty('DISCORD_WEBHOOK');
-
   const trigger = getEnvVariable('GH_USER_CREATOR');
+
   await notifyDiscord(
     discordWebhook,
     `***${trigger} triggered Wonderland github repos health check*** 🏥\nhttps://github.com/defi-wonderland/repo-creatooor/actions/workflows/health-check.yml`
@@ -40,23 +40,42 @@ type RepoDiagnostic = {
   }
 
   const issues = diagnoses.filter((diagnosis) => diagnosis.hasIssues);
-  let message = '💈💈💈 ***Hall of Shame*** 💈💈💈';
-  const title = `***Found ${issues.length} repos with issues ***`;
-  console.info(title);
 
-  issues.forEach((issue) => {
-    message = message + `\n\n🛡️ ***${issue.name}***:`;
+  const title = `***Found ${issues.length} repos with issues ***`;
+  if (issues.length > 0) {
+    const message = `${title}\n💈💈💈 ***Hall of Shame*** 💈💈💈`;
+    console.info(message);
+    await notifyDiscord(discordWebhook, message);
+  }
+
+  let messageBuffer = '';
+  for (const issue of issues) {
+    let message = `\n\n🛡️ ***${issue.name}***:`;
     for (const assertion of issue.assertions) {
       if (assertion.condition == false) {
         message = message + `\n       • ${assertion.message}`;
       }
     }
-  });
+    console.log(message);
+
+    if (messageBuffer.length + message.length > 2000) {
+      await notifyDiscord(discordWebhook, messageBuffer);
+      messageBuffer = '';
+    } else {
+      messageBuffer = messageBuffer + message;
+    }
+    // Wait for 1 second to avoid hitting the rate limit
+    await new Promise((f) => setTimeout(f, 1000));
+  }
+
+  if (messageBuffer.length > 0) {
+    await notifyDiscord(discordWebhook, messageBuffer);
+  }
 
   if (issues.length > 0) {
-    await notifyDiscord(discordWebhook, `${title}\n\n${message}`);
-    console.log(message);
-    throw new Error('Please fix the issues specified above');
+    const message = `\n\nPlease fix the issues! or run repo-doctor 👨‍⚕️🩺 to fix them automatically.`;
+    await notifyDiscord(discordWebhook, message);
+    throw new Error(message);
   } else {
     console.info('No issues found in any of the repositories! 🎉');
     await notifyDiscord(

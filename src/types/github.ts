@@ -18,9 +18,7 @@ export type RepoPayload = {
   name: string;
   org: string;
   description: string;
-  homepage: string;
   private: boolean;
-  visibility: string;
   has_issues: boolean;
   has_projects: boolean;
   has_wiki: boolean;
@@ -44,7 +42,6 @@ export type UpdateRepoPayload = {
   name: string;
   org: string;
   description: string;
-  homepage: string;
   private: boolean;
   has_issues: boolean;
   has_projects: boolean;
@@ -168,12 +165,12 @@ export type RepoResponse = {
 };
 
 export type UpdateBranchProtectionPayload = {
-  required_status_checks: {
+  required_status_checks?: {
     strict: boolean;
     contexts: string[];
   };
   enforce_admins: boolean;
-  required_pull_request_reviews: {
+  required_pull_request_reviews?: {
     dismiss_stale_reviews: boolean;
     require_code_owner_reviews: boolean;
     required_approving_review_count: number;
@@ -187,7 +184,7 @@ export type UpdateBranchProtectionPayload = {
 
 export type BranchProtectionResponse = {
   url: string;
-  required_status_checks: {
+  required_status_checks?: {
     url: string;
     strict: boolean;
     contexts: string[];
@@ -206,7 +203,7 @@ export type BranchProtectionResponse = {
     teams: any[];
     apps: any[];
   };
-  required_pull_request_reviews: {
+  required_pull_request_reviews?: {
     url: string;
     dismiss_stale_reviews: boolean;
     require_code_owner_reviews: boolean;

@@ -64,12 +64,6 @@ export class RepoCheckers {
       });
     }
 
-    this.log(`Checking repo has homepage is ${config.homepage}`);
-    repoAssertions.push({
-      condition: repoData.homepage == config.homepage,
-      message: `Repo homepage ${repoData.homepage} is not ${config.homepage}`,
-    });
-
     this.log(`Checking repo is private is ${config.private}...`);
     repoAssertions.push({ condition: repoData.private == config.private, message: `Repo ${this.repo} private is not ${config.private}` });
 
@@ -140,32 +134,32 @@ export class RepoCheckers {
 
     const config: UpdateBranchProtectionPayload = defaultBranchProtectionConfig(branchName == 'main');
 
-    this.log(`Checking required reviews count is ${config.required_pull_request_reviews.required_approving_review_count}`);
+    this.log(`Checking required reviews count is ${config.required_pull_request_reviews?.required_approving_review_count}`);
     branchAssertions.push({
       condition:
-        branchData.required_pull_request_reviews.required_approving_review_count ==
-        config.required_pull_request_reviews.required_approving_review_count,
-      message: `Repo ${this.repo} does not have required reviews count of ${config.required_pull_request_reviews.required_approving_review_count} for ${branchName} branch`,
+        branchData.required_pull_request_reviews?.required_approving_review_count ==
+        config.required_pull_request_reviews?.required_approving_review_count,
+      message: `Repo ${this.repo} does not have required reviews count of ${config.required_pull_request_reviews?.required_approving_review_count} for ${branchName} branch`,
     });
 
-    this.log(`Checking require code owner reviews is ${config.required_pull_request_reviews.require_code_owner_reviews}...`);
+    this.log(`Checking require code owner reviews is ${config.required_pull_request_reviews?.require_code_owner_reviews}...`);
     branchAssertions.push({
       condition:
-        branchData.required_pull_request_reviews.require_code_owner_reviews == config.required_pull_request_reviews.require_code_owner_reviews,
-      message: `Repo ${this.repo} require code owner reviews is not ${config.required_pull_request_reviews.require_code_owner_reviews} for ${branchName} branch`,
+        branchData.required_pull_request_reviews?.require_code_owner_reviews == config.required_pull_request_reviews?.require_code_owner_reviews,
+      message: `Repo ${this.repo} require code owner reviews is not ${config.required_pull_request_reviews?.require_code_owner_reviews} for ${branchName} branch`,
     });
 
-    this.log(`Checking require last push approval is ${config.required_pull_request_reviews.require_last_push_approval}...`);
+    this.log(`Checking require last push approval is ${config.required_pull_request_reviews?.require_last_push_approval}...`);
     branchAssertions.push({
       condition:
-        branchData.required_pull_request_reviews.require_last_push_approval == config.required_pull_request_reviews.require_last_push_approval,
-      message: `Repo ${this.repo} require last push approval is not ${config.required_pull_request_reviews.require_last_push_approval} for ${branchName} branch`,
+        branchData.required_pull_request_reviews?.require_last_push_approval == config.required_pull_request_reviews?.require_last_push_approval,
+      message: `Repo ${this.repo} require last push approval is not ${config.required_pull_request_reviews?.require_last_push_approval} for ${branchName} branch`,
     });
 
-    this.log(`Checking dismiss stale reviews is ${config.required_pull_request_reviews.dismiss_stale_reviews}...`);
+    this.log(`Checking dismiss stale reviews is ${config.required_pull_request_reviews?.dismiss_stale_reviews}...`);
     branchAssertions.push({
-      condition: branchData.required_pull_request_reviews.dismiss_stale_reviews == config.required_pull_request_reviews.dismiss_stale_reviews,
-      message: `Repo ${this.repo} dismiss stale reviews is not ${config.required_pull_request_reviews.dismiss_stale_reviews} for ${branchName} branch`,
+      condition: branchData.required_pull_request_reviews?.dismiss_stale_reviews == config.required_pull_request_reviews?.dismiss_stale_reviews,
+      message: `Repo ${this.repo} dismiss stale reviews is not ${config.required_pull_request_reviews?.dismiss_stale_reviews} for ${branchName} branch`,
     });
 
     this.log(`Checking enforce_admins is ${config.enforce_admins}...`);
@@ -174,10 +168,10 @@ export class RepoCheckers {
       message: `Repo ${this.repo} enforce_admins is not ${config.enforce_admins} for ${branchName} branch`,
     });
 
-    this.log(`Checking require status checks is ${config.required_status_checks.strict}...`);
+    this.log(`Checking require status checks is ${config.required_status_checks?.strict}...`);
     branchAssertions.push({
-      condition: branchData.required_status_checks.strict == config.required_status_checks.strict,
-      message: `Repo ${this.repo} require status checks is not ${config.required_status_checks.strict} for ${branchName} branch`,
+      condition: branchData.required_status_checks?.strict == config.required_status_checks?.strict,
+      message: `Repo ${this.repo} require status checks is not ${config.required_status_checks?.strict} for ${branchName} branch`,
     });
 
     this.log(`Checking restrict push access is ${config.restrictions}...`);
@@ -259,7 +253,7 @@ export class RepoCheckers {
 
     const repoData = await this.githubApi.getRepository(this.owner, this.repo);
 
-    if (repoData.private == false || repoData.visibility == 'public') {
+    if (repoData.private == false) {
       // Checks that all branches of the public repo are locked
       const branches = await this.githubApi.listBranches(this.owner, this.repo);
       for (const branch of branches) {
