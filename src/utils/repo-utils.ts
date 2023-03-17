@@ -70,10 +70,7 @@ export class RepoUtils {
   }
 
   async checkBranchExistsOrCreate(owner: string, repoName: string, branchName: string, fromBranch: string | null = null): Promise<void> {
-    console.log(`Checking if ${branchName} branch exists...`);
-    const branches = await this.githubApi.listBranches(owner, repoName);
-    const hasBranch = branches.find((branch) => branch.name == branchName) != undefined;
-    if (!hasBranch) {
+    if (await this.checkBranchExists(owner, repoName, branchName) == false) {
       console.log(`${branchName} branch does not exist!, creating...`);
       // If fromBranch is not provided, use the default branch
       if (fromBranch == null) {
@@ -83,6 +80,13 @@ export class RepoUtils {
       const sha = await this.getBranchRef(owner, repoName, fromBranch);
       await this.createBranch(owner, repoName, branchName, sha);
     }
+  }
+
+  async checkBranchExists(owner: string, repoName: string, branchName: string): Promise<boolean> {
+    console.log(`Checking if ${branchName} branch exists...`);
+    const branches = await this.githubApi.listBranches(owner, repoName);
+    const hasBranch = branches.find((branch) => branch.name == branchName) != undefined;
+    return hasBranch;
   }
 
   async requireSignature(owner: string, repoName: string, branchName: string): Promise<void> {

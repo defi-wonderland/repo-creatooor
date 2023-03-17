@@ -1,6 +1,6 @@
 import { GithubApi } from './api/github-api';
 import { notifyDiscord } from './utils/discord';
-import { getEnvVariable, getEnvVariableOrEmpty } from './utils/env';
+import { getEnvVariable } from './utils/env';
 import { RepoCheckers } from './utils/repo-checkers';
 import { RepoUtils } from './utils/repo-utils';
 
@@ -9,9 +9,9 @@ import { RepoUtils } from './utils/repo-utils';
   const githubApi = new GithubApi(token);
   const owner = getEnvVariable('GH_OWNER');
   const repoUtils = new RepoUtils(githubApi);
-  const repo = getEnvVariable('GH_REPO_NAME').replace(/ /g, '-');
+  const repo = getEnvVariable('GH_REPO_NAME');
   const trigger = getEnvVariable('GH_USER_CREATOR');
-  const discordWebhook = getEnvVariableOrEmpty('DISCORD_WEBHOOK');
+  const discordWebhook = getEnvVariable('DISCORD_WEBHOOK');
 
   const checkers = new RepoCheckers(githubApi, owner, repo, '', '', true);
 
