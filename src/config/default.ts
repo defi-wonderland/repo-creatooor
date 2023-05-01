@@ -17,6 +17,7 @@ export const defaultRepoCreateConfig = (owner: string, name: string, description
   allow_rebase_merge: false,
   allow_auto_merge: false,
   delete_branch_on_merge: true,
+  allow_update_branch: true,
   use_squash_pr_title_as_default: true,
   squash_merge_commit_title: 'PR_TITLE',
   squash_merge_commit_message: 'PR_BODY',
