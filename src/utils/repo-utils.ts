@@ -55,7 +55,7 @@ export class RepoUtils {
   async getBranchRef(owner: string, repoName: string, branchName: string): Promise<string> {
     console.log(`Getting ${branchName} branch ref...`);
     const data = await this.githubApi.getRef(owner, repoName, `heads/${branchName}`);
-    console.log(`Successfuly got ${branchName} branch ref!`);
+    console.log(`Successfully got ${branchName} branch ref!`);
     return data.object.sha;
   }
 
@@ -151,7 +151,7 @@ export class RepoUtils {
     } while (nextPage);
 
     console.log(`Found ${allRepos.length} repos!`);
-    console.log('Successfuly got all repos!');
+    console.log('Successfully got all repos!');
     return allRepos;
   }
 }
