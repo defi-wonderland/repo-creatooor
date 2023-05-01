@@ -6,7 +6,7 @@ import {
   RepoResponse,
   UpdateBranchProtectionPayload,
   BranchProtectionResponse,
-  RequireSingatureResponse,
+  RequireSignatureResponse,
   CreateRepoFromTemplatePayload,
   CreateRepoFromTemplateResponse,
   ListBranchesResponse,
@@ -62,8 +62,8 @@ export class GithubApi {
     return data;
   }
 
-  async requireSignature(owner: string, repo: string, branch: string): Promise<RequireSingatureResponse> {
-    const { data } = await this.axios.post<RequireSingatureResponse>(
+  async requireSignature(owner: string, repo: string, branch: string): Promise<RequireSignatureResponse> {
+    const { data } = await this.axios.post<RequireSignatureResponse>(
       `/repos/${owner}/${repo}/branches/${branch}/protection/required_signatures`,
       {}
     );
@@ -125,8 +125,8 @@ export class GithubApi {
     return data;
   }
 
-  async getCommitSignatureProtection(owner: string, repo: string, branch: string): Promise<RequireSingatureResponse> {
-    const { data } = await this.axios.get<RequireSingatureResponse>(`/repos/${owner}/${repo}/branches/${branch}/protection/required_signatures`);
+  async getCommitSignatureProtection(owner: string, repo: string, branch: string): Promise<RequireSignatureResponse> {
+    const { data } = await this.axios.get<RequireSignatureResponse>(`/repos/${owner}/${repo}/branches/${branch}/protection/required_signatures`);
     return data;
   }
 

@@ -243,7 +243,7 @@ export type BranchProtectionResponse = {
   };
 };
 
-export type RequireSingatureResponse = {
+export type RequireSignatureResponse = {
   url: string;
   enabled: boolean;
 };
