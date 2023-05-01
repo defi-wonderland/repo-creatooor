@@ -31,6 +31,7 @@ export type RepoPayload = {
   allow_rebase_merge: boolean;
   allow_auto_merge: boolean;
   delete_branch_on_merge: boolean;
+  allow_update_branch: boolean;
   use_squash_pr_title_as_default: boolean;
   squash_merge_commit_title: string;
   squash_merge_commit_message: string;
@@ -53,6 +54,7 @@ export type UpdateRepoPayload = {
   allow_rebase_merge: boolean;
   allow_auto_merge: boolean;
   delete_branch_on_merge: boolean;
+  allow_update_branch: boolean;
   use_squash_pr_title_as_default: boolean;
   squash_merge_commit_title: string;
   squash_merge_commit_message: string;
@@ -307,6 +309,7 @@ export type GetRepositoryResponse = {
   allow_squash_merge: boolean;
   allow_auto_merge: boolean;
   delete_branch_on_merge: boolean;
+  allow_update_branch: boolean;
   allow_merge_commit: boolean;
   allow_forking: boolean;
 };

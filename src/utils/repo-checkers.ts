@@ -97,6 +97,12 @@ export class RepoCheckers {
       message: `Repo ${this.repo} delete_branch_on_merge is not ${config.delete_branch_on_merge}`,
     });
 
+    this.log(`Checking always suggest updating pull request branches is ${config.allow_update_branch}...`);
+    repoAssertions.push({
+      condition: repoData.allow_update_branch == config.allow_update_branch,
+      message: `Repo ${this.repo} allow_update_branch is not ${config.allow_update_branch}`,
+    });
+
     if (newRepo) {
       this.log(`Checking admin role for ${this.owner}...`);
       const collaborators = await this.githubApi.getCollaborators(this.owner, this.repo);
