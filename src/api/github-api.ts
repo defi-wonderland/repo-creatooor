@@ -125,7 +125,7 @@ export class GithubApi {
     return data;
   }
 
-  async getCommitSignatureProctection(owner: string, repo: string, branch: string): Promise<RequireSingatureResponse> {
+  async getCommitSignatureProtection(owner: string, repo: string, branch: string): Promise<RequireSingatureResponse> {
     const { data } = await this.axios.get<RequireSingatureResponse>(`/repos/${owner}/${repo}/branches/${branch}/protection/required_signatures`);
     return data;
   }

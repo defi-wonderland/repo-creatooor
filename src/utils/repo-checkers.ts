@@ -205,7 +205,7 @@ export class RepoCheckers {
     });
 
     this.log(`Checking commit signature protection is enabled...`);
-    const signatureProtection = await this.githubApi.getCommitSignatureProctection(this.owner, this.repo, branchName);
+    const signatureProtection = await this.githubApi.getCommitSignatureProtection(this.owner, this.repo, branchName);
 
     branchAssertions.push({
       condition: signatureProtection.enabled == true,
