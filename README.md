@@ -20,6 +20,9 @@ The repository creator workflow allows users to create new repositories with all
 
 - [✓] Disable "Allow rebase merging"
 - [✓] Enable "Automatically delete head branches"
+- [✓] Enable "Always suggest updating pull request branches"
+- [✓] Disable Issues
+- [✓] Disable Wiki
 - [✓] Main branch protection
   - [✓] Enable "Require a pull request before merging"
   - [✓] Change "Require approvals" to 2
