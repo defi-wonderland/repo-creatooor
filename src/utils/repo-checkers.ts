@@ -53,9 +53,6 @@ export class RepoCheckers {
       message: `Repo ${this.repo} does not exist in ${this.owner}`,
     });
 
-    this.log(`Checking repo has issues: ${config.has_issues}`);
-    repoAssertions.push({ condition: repoData.has_issues, message: `Repo ${this.repo} does not have issues enabled` });
-
     if (this.template != '') {
       this.log(`Checking repo from template is ${this.template}`);
       repoAssertions.push({
