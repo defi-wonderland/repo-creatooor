@@ -101,6 +101,12 @@ export class RepoUtils {
     console.log(`Codeowners for ${teamName} added!`);
   }
 
+  async addAutolink(owner: string, repoName: string, projectCode: string): Promise<void> {
+    console.log(`Adding autolink for ${projectCode}...`);
+    await this.githubApi.addCodeOwners(owner, repoName, projectCode);
+    console.log(`Autolink for ${projectCode} added!`);
+  }
+
   async addCollaborator(owner: string, repoName: string, username: string, adminLevel: string): Promise<void> {
     console.log(`Adding ${username} as a collaborator with ${adminLevel} permission...`);
     await this.githubApi.addCollaborator(owner, repoName, username, adminLevel);

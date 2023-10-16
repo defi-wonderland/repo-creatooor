@@ -12,6 +12,9 @@ on:
       template:
         description: "Template (eg. defi-wonderland/solidity-foundry-boilerplate)"
         required: false
+      linear_project_code:
+        description: "Linear project code (eg. BES)"
+        required: false
 
 jobs:
   create_repo:
@@ -48,5 +51,6 @@ jobs:
           GH_USER_CREATOR: ${{ github.actor }}
           GH_CODEOWNER: ${{ github.event.inputs.repo_codeowner }}
           GH_TEMPLATE: ${{ github.event.inputs.template }}
+          LINEAR_PROJECT_CODE: ${{ github.event.inputs.linear_project_code }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: yarn create-repo
