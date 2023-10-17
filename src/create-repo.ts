@@ -30,7 +30,10 @@ const createRepo = async () => {
     // Check or create main branch
     await repoUtils.checkBranchExistsOrCreate(owner, repo, 'main');
 
-    await repoUtils.addCodeowners(owner, repo, codeowner == '' ? 'defi-wonderland/default-codeowner' : codeowner);
+    if (codeowner != '') {
+      await repoUtils.addCodeowners(owner, repo, codeowner);
+    }
+
     await repoUtils.addCollaborator(owner, repo, admin, 'admin');
     await repoUtils.checkBranchExistsOrCreate(owner, repo, 'dev', 'main');
     await repoUtils.updateRepo(owner, repo, '');

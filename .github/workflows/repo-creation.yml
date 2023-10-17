@@ -7,7 +7,7 @@ on:
         description: "Repository name"
         required: true
       repo_codeowner:
-        description: "Codeowners (default: @defi-wonderland/default-codeowner)"
+        description: "Codeowners"
         required: false
       template:
         description: "Template (eg. defi-wonderland/solidity-foundry-boilerplate)"
