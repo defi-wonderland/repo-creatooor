@@ -83,15 +83,26 @@ export class GithubApi {
   }
 
   async addAutolink(owner: string, repo: string, projectCode: string): Promise<void> {
+    const body: object = {
+      key_prefix: projectCode,
+      url_template: `https://linear.app/defi-wonderland/issue/${projectCode}-<num>`,
+    };
+    const { data } = await this.axios.post(`/repos/${owner}/${repo}/autolinks`, body);
+
+    return data;
+  }
+
+  async addPrTemplate(owner: string, repo: string, projectCode: string): Promise<void> {
     const file = '.github/pull_request_template.md';
     const content: string = `# 🤖 Linear\nCloses ${projectCode}-XXX
     `;
     const b64Content: string = Buffer.from(content).toString('base64');
     const body: object = {
-      message: 'Added Autolink to Repo',
+      message: 'Added PR template to Repo',
       content: b64Content,
     };
     const { data } = await this.axios.put(`/repos/${owner}/${repo}/contents/${file}`, body);
+
     return data;
   }
 

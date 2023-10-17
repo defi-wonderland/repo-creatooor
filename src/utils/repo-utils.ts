@@ -103,8 +103,14 @@ export class RepoUtils {
 
   async addAutolink(owner: string, repoName: string, projectCode: string): Promise<void> {
     console.log(`Adding autolink for ${projectCode}...`);
-    await this.githubApi.addCodeOwners(owner, repoName, projectCode);
+    await this.githubApi.addAutolink(owner, repoName, projectCode);
     console.log(`Autolink for ${projectCode} added!`);
+  }
+
+  async addPrTemplate(owner: string, repoName: string, projectCode: string): Promise<void> {
+    console.log(`Adding PR template for ${projectCode}...`);
+    await this.githubApi.addPrTemplate(owner, repoName, projectCode);
+    console.log(`PR template for ${projectCode} added!`);
   }
 
   async addCollaborator(owner: string, repoName: string, username: string, adminLevel: string): Promise<void> {

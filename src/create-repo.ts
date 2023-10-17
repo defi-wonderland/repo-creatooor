@@ -32,7 +32,10 @@ const createRepo = async () => {
     await repoUtils.checkBranchExistsOrCreate(owner, repo, 'main');
 
     await repoUtils.addCodeowners(owner, repo, codeowner == '' ? 'defi-wonderland/default-codeowner' : codeowner);
-    if (projectCode != '') await repoUtils.addAutolink(owner, repo, projectCode);
+    if (projectCode != '') {
+      await repoUtils.addAutolink(owner, repo, projectCode);
+      await repoUtils.addPrTemplate(owner, repo, projectCode);
+    }
     await repoUtils.addCollaborator(owner, repo, admin, 'admin');
     await repoUtils.checkBranchExistsOrCreate(owner, repo, 'dev', 'main');
     await repoUtils.updateRepo(owner, repo, '');
