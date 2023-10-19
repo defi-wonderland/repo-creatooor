@@ -63,7 +63,7 @@ export const defaultBranchProtectionPublicConfig = () => ({
   restrictions: null,
   allow_force_pushes: false,
   allow_deletions: false,
-  lock_branch: true,
+  lock_branch: false,
 });
 
 export const defaultCreateRepoFromTemplateConfig = (owner: string, repo: string) => ({
