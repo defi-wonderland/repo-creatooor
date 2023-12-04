@@ -235,7 +235,7 @@ export class RepoCheckers {
     }
 
     const branchData = await this.githubApi.getBranchProtection(this.owner, this.repo, branchName);
-    branchAssertions.push({ condition: branchData.lock_branch.enabled, message: `Branch ${branchName} is not locked` });
+    branchAssertions.push({ condition: branchData.lock_branch.enabled == false, message: `Branch ${branchName} is locked` });
 
     return branchAssertions;
   }
