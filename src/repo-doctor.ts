@@ -40,10 +40,11 @@ import { RepoUtils } from './utils/repo-utils';
       const repoData = await githubApi.getRepository(owner, repo);
       // Check if the repo is public
       if (repoData.private == false || repoData.visibility == 'public') {
-        // If the repo is public lock all the branches
         const branches = await githubApi.listBranches(owner, repo);
         branches.forEach(async (branch) => {
-          await repoUtils.updatePublicBranchProtection(owner, repo, branch.name);
+          if (branch.name == 'main' || branch.name == 'dev') {
+            await repoUtils.updatePublicBranchProtection(owner, repo, branch.name);
+          }
         });
       } else {
         // Check or create main branch
