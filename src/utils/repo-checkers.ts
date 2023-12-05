@@ -235,7 +235,7 @@ export class RepoCheckers {
     }
 
     const branchData = await this.githubApi.getBranchProtection(this.owner, this.repo, branchName);
-    branchAssertions.push({ condition: branchData.lock_branch.enabled == false, message: `Branch ${branchName} is locked` });
+    branchAssertions.push({ condition: branchData.lock_branch.enabled == false, message: `Branch ${branchName} should not be locked` });
 
     return branchAssertions;
   }
@@ -257,10 +257,11 @@ export class RepoCheckers {
     const repoData = await this.githubApi.getRepository(this.owner, this.repo);
 
     if (repoData.private == false) {
-      // Checks that all branches of the public repo are locked
       const branches = await this.githubApi.listBranches(this.owner, this.repo);
       for (const branch of branches) {
-        assertions.push(...(await this.getPublicRepoBranchAssertions(branch.name)));
+        if (branch.name == 'main' || branch.name == 'dev') {
+          assertions.push(...(await this.getPublicRepoBranchAssertions(branch.name)));
+        }
       }
     } else {
       assertions = [
