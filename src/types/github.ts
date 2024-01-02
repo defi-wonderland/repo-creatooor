@@ -32,6 +32,7 @@ export type RepoPayload = {
   allow_auto_merge: boolean;
   delete_branch_on_merge: boolean;
   allow_update_branch: boolean;
+  license_template: string;
   use_squash_pr_title_as_default: boolean;
   squash_merge_commit_title: string;
   squash_merge_commit_message: string;
@@ -56,6 +57,7 @@ export type UpdateRepoPayload = {
   delete_branch_on_merge: boolean;
   allow_update_branch: boolean;
   use_squash_pr_title_as_default: boolean;
+  license_template: string;
   squash_merge_commit_title: string;
   squash_merge_commit_message: string;
   merge_commit_title: string;
@@ -150,6 +152,7 @@ export type RepoResponse = {
   archived: boolean;
   disabled: boolean;
   open_issues_count: number;
+  license_template: string;
   license: {
     key: string;
     name: string;
