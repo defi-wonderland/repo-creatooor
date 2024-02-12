@@ -106,7 +106,7 @@ export class RepoUtils {
     const path = '.github/pull_request_template.md';
     const templateExists = await this.githubApi.fileExists(owner, repoName, path);
 
-    if(templateExists) {
+    if (templateExists) {
       console.log('PR template already exists');
     } else {
       console.log(`Adding PR template for ${projectCode}...`);
