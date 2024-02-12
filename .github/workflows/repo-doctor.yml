@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       repo_name:
-        description: "Repository name"
+        description: "Repository name (e.g. solidity-foundry-boilerplate)"
         required: true
 
 jobs:
