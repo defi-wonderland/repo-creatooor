@@ -165,4 +165,16 @@ export class GithubApi {
     });
     return response;
   }
+
+  async fileExists(owner: string, repo: string, path: string): Promise<boolean> {
+    // The response can only be successful if the file is present
+    // For this reason, we're discarding the response data and are looking only at the status
+    try {
+      await this.axios.get(`/repos/${owner}/${repo}/contents/${path}`);
+      return true;
+    } catch (err) {
+      console.log(`Checking if ${path} exists: ${err}`);
+      return false;
+    }
+  }
 }

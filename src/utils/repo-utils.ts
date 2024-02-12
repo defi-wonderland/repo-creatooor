@@ -102,9 +102,17 @@ export class RepoUtils {
   }
 
   async addPrTemplate(owner: string, repoName: string, projectCode: string): Promise<void> {
-    console.log(`Adding PR template for ${projectCode}...`);
-    await this.githubApi.addPrTemplate(owner, repoName, projectCode);
-    console.log(`PR template for ${projectCode} added!`);
+    console.log(`Checking for a PR template in ${projectCode}...`);
+    const path = '.github/pull_request_template.md';
+    const templateExists = await this.githubApi.fileExists(owner, repoName, path);
+
+    if(templateExists) {
+      console.log('PR template already exists');
+    } else {
+      console.log(`Adding PR template for ${projectCode}...`);
+      await this.githubApi.addPrTemplate(owner, repoName, projectCode);
+      console.log(`PR template for ${projectCode} added!`);
+    }
   }
 
   async addCollaborator(owner: string, repoName: string, username: string, adminLevel: string): Promise<void> {
