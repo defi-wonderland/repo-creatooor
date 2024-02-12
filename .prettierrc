@@ -12,8 +12,15 @@
       }
     },
     {
+      "files": "**.yml",
+      "options": {
+        "singleQuote": true
+      }
+    },
+    {
       "files": "**.json",
       "options": {
+        "trailingComma": "none",
         "tabWidth": 2,
         "printWidth": 200
       }
