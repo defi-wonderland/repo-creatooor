@@ -40,3 +40,7 @@ The repository creator workflow allows users to create new repositories with all
   - [✓] Enable "Require status checks to pass before merging"
   - [✓] Enable "Require branches to be up to date before merging"
   - [✓] Enable "Require signed commits"
+
+## Repo Doctor
+
+In order to update an existing repository with the aforementioned settings, run the [Repo Doctor](https://github.com/defi-wonderland/repo-creatooor/actions/workflows/repo-doctor.yml). You only need to specify the repository name (e.g. solidity-hardhat-boilerplate) and the doctor will detect any deviations from the default config and try to fix them.
