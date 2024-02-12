@@ -12,30 +12,27 @@ import { RepoUtils } from './utils/repo-utils';
   const repo = getEnvVariable('GH_REPO_NAME');
   const trigger = getEnvVariable('GH_USER_CREATOR');
   const discordWebhook = getEnvVariable('DISCORD_WEBHOOK');
+  let discordNotifications = [];
 
   const checkers = new RepoCheckers(githubApi, owner, repo, '', '', true);
 
   try {
-    let message = `***${trigger} triggered repo doctor 👨‍⚕️: for **${repo}/${owner}***`;
+    let message = `👨‍⚕️ _${trigger}_ triggered repo doctor for [**${owner}/${repo}**](https://github.com/${owner}/${repo})\n\n🩸🔬 Diagnosing **${repo}**...`;
     console.info(message);
-    notifyDiscord(discordWebhook, message);
-
-    message = `Diagnosing **${repo}** 🩸🔬...`;
-    console.info(message);
-    notifyDiscord(discordWebhook, message);
+    discordNotifications.push(message);
 
     const diagnosis = await checkers.runAllReposHealthChecks();
     const issues = diagnosis.filter((assertion) => assertion.condition == false);
     message = '';
     if (issues.length > 0) {
-      message = `***Found ${issues.length} issues in ${repo}🦠***`;
+      message = `🦠 Found **${issues.length} issues**:`;
 
       issues.forEach((issue) => {
         message = message + `\n• ${issue.message}`;
       });
-      message = message + `\n\n🛡️ ***Fixing ${repo}...***`;
+      message = message + `\n\n🛡️ Fixing **${repo}**...`;
       console.info(message);
-      notifyDiscord(discordWebhook, message);
+      discordNotifications.push(message);
 
       const repoData = await githubApi.getRepository(owner, repo);
       // Check if the repo is public
@@ -64,27 +61,29 @@ import { RepoUtils } from './utils/repo-utils';
       const issuesAfterFix = (await checkers.runAllReposHealthChecks()).filter((assertion) => assertion.condition == false);
 
       if (issuesAfterFix.length > 0) {
-        message = `***After running tests ${repo} is still sick 🤒 with the following issues:***`;
+        message = `🤒 After running tests **${repo}** is still sick with the following issues:`;
         issuesAfterFix.forEach((issue) => {
           message = message + `\n• ${issue.message}`;
         });
         console.info(message);
-        notifyDiscord(discordWebhook, message);
+        discordNotifications.push(message);
         checkers.assertAll(issuesAfterFix);
       } else {
-        message = `After applying fixes 🛌💉💊 **${repo}** is now healthy 🏥\nLink to the repo https://github.com/${owner}/${repo}`;
+        message = `🏥 After applying fixes 🛌💉💊 **${repo}** is now healthy`;
         console.info(message);
-        notifyDiscord(discordWebhook, message);
+        discordNotifications.push(message);
       }
     } else {
-      message = `***After running tests ${repo} is healthy 🏥***`;
-      notifyDiscord(discordWebhook, message);
+      message = `🏥 After running tests **${repo}** is healthy`;
       console.info(message);
+      discordNotifications.push(message);
     }
   } catch (err) {
     console.error(err);
-    const message = `Repo doctor 👨‍⚕️ failed to heal **${repo}** ❌\nIt will need manual intervention, please check the detailed logs at: https://github.com/defi-wonderland/repo-creatooor/actions/workflows/repo-doctor.yml`;
+    const message = `👨‍⚕️❌ Repo doctor failed to heal **${repo}**\nIt will need manual intervention, please check the detailed logs at: https://github.com/defi-wonderland/repo-creatooor/actions/workflows/repo-doctor.yml`;
     console.info(message);
-    notifyDiscord(discordWebhook, message);
+    discordNotifications.push(message);
+  } finally {
+    notifyDiscord(discordWebhook, discordNotifications.join('\n\n'));
   }
 })();
