@@ -26,6 +26,7 @@
   "dependencies": {
     "axios": "1.2.1",
     "dotenv": "16.0.3",
+    "jsonwebtoken": "9.0.2",
     "lint-staged": "13.1.0",
     "yaml": "2.2.0"
   },
@@ -33,6 +34,7 @@
     "@commitlint/cli": "12.1.4",
     "@commitlint/config-conventional": "12.1.4",
     "@types/chai": "4.3.3",
+    "@types/jsonwebtoken": "9.0.6",
     "@types/mocha": "10.0.0",
     "@types/node": "18.11.3",
     "chai": "4.3.6",

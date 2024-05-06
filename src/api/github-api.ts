@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import * as jwt from 'jsonwebtoken';
 import {
   GetRefResponse,
   CreateRefPayload,
@@ -22,11 +23,50 @@ import {
 export class GithubApi {
   private readonly axios: AxiosInstance;
 
-  constructor(accessToken: string) {
+  constructor(
+    accessToken: string,
+  ) {
     this.axios = axios.create({
       baseURL: 'https://api.github.com',
     });
     this.axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+  }
+
+  static async initialize(
+    appId: string,
+    installationId: string,
+    privateKey: string,
+    expirationDurationInSeconds: number = 600,
+  ) {
+    const jwt = this.generateJWT(appId, privateKey, expirationDurationInSeconds);
+    const accessToken = await this.getInstallationAccessToken(jwt, installationId);
+    return new GithubApi(accessToken);
+  }
+
+  private static generateJWT(
+    appId: string,
+    privateKey: string,
+    expirationDurationInSeconds: number
+  ) {
+    const now = Math.floor(Date.now() / 1000);
+    const payload = {
+      iat: now,
+      exp: now + expirationDurationInSeconds,
+      iss: appId
+    };
+    return jwt.sign(payload, privateKey, { algorithm: 'RS256' });
+  }
+
+  private static async getInstallationAccessToken(jwt: any, installationId: string) {
+    const url = `https://api.github.com/app/installations/${installationId}/access_tokens`;
+    const headers = {
+      Accept: 'application/vnd.github.v3+json',
+      Authorization: `Bearer ${jwt}`,
+      'User-Agent': 'My-Github-App'
+    };
+
+    const response = await axios.post(url, {}, { headers });
+    return response.data.token; // This is your installation access token
   }
 
   async createRepo(owner: string, createRepoPayload: RepoPayload): Promise<RepoResponse> {
@@ -94,8 +134,7 @@ export class GithubApi {
 
   async addPrTemplate(owner: string, repo: string, projectCode: string): Promise<void> {
     const file = '.github/pull_request_template.md';
-    const content: string = `# 🤖 Linear\nCloses ${projectCode}-XXX
-    `;
+    const content: string = `# 🤖 Linear\n\nCloses ${projectCode}-XXX\n`;
     const b64Content: string = Buffer.from(content).toString('base64');
     const body: object = {
       message: 'Added PR template to Repo',

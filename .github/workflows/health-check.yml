@@ -31,8 +31,10 @@ jobs:
 
       - name: Health check steps
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_OWNER: ${{ vars.GH_OWNER }}
-          GH_USER_CREATOR: ${{ github.actor }}
+          GH_APP_ID: ${{ vars.GH_APP_ID }}
+          GH_INSTALLATION_ID: ${{ secrets.GH_INSTALLATION_ID }}
+          GH_APP_PRIVATE_KEY: ${{ secrets.GH_APP_PRIVATE_KEY }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          GH_USER_CREATOR: ${{ github.actor }}
         run: yarn health-check

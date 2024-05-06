@@ -36,9 +36,11 @@ jobs:
 
       - name: Repo doctor steps
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_OWNER: ${{ vars.GH_OWNER }}
+          GH_APP_ID: ${{ vars.GH_APP_ID }}
+          GH_INSTALLATION_ID: ${{ secrets.GH_INSTALLATION_ID }}
+          GH_APP_PRIVATE_KEY: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           GH_REPO_NAME: ${{ github.event.inputs.repo_name }}
           GH_USER_CREATOR: ${{ github.actor }}
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: yarn repo-doctor
