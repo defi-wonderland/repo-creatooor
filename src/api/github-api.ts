@@ -23,36 +23,25 @@ import {
 export class GithubApi {
   private readonly axios: AxiosInstance;
 
-  constructor(
-    accessToken: string,
-  ) {
+  constructor(accessToken: string) {
     this.axios = axios.create({
       baseURL: 'https://api.github.com',
     });
     this.axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   }
 
-  static async initialize(
-    appId: string,
-    installationId: string,
-    privateKey: string,
-    expirationDurationInSeconds: number = 600,
-  ) {
+  static async initialize(appId: string, installationId: string, privateKey: string, expirationDurationInSeconds: number = 600) {
     const jwt = this.generateJWT(appId, privateKey, expirationDurationInSeconds);
     const accessToken = await this.getInstallationAccessToken(jwt, installationId);
     return new GithubApi(accessToken);
   }
 
-  private static generateJWT(
-    appId: string,
-    privateKey: string,
-    expirationDurationInSeconds: number
-  ) {
+  private static generateJWT(appId: string, privateKey: string, expirationDurationInSeconds: number) {
     const now = Math.floor(Date.now() / 1000);
     const payload = {
       iat: now,
       exp: now + expirationDurationInSeconds,
-      iss: appId
+      iss: appId,
     };
     return jwt.sign(payload, privateKey, { algorithm: 'RS256' });
   }
@@ -62,7 +51,7 @@ export class GithubApi {
     const headers = {
       Accept: 'application/vnd.github.v3+json',
       Authorization: `Bearer ${jwt}`,
-      'User-Agent': 'My-Github-App'
+      'User-Agent': 'My-Github-App',
     };
 
     const response = await axios.post(url, {}, { headers });
