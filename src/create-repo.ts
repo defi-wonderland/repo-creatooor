@@ -49,11 +49,11 @@ const createRepo = async () => {
     console.log(`Link to the repo https://github.com/${owner}/${repo}`);
     notifyDiscord(discordWebhook, `Repo **${repo}** successfully created 🚀 \nLink to the repo https://github.com/${owner}/${repo}`);
   } catch (err) {
-    console.error(err);
     await notifyDiscord(
       discordWebhook,
       `Repo **${repo}** creation failed ❌ please check the detailed logs at: https://github.com/defi-wonderland/repo-creatooor/actions/workflows/repo-creation.yml`
     );
+    throw err;
   }
 };
 
