@@ -343,3 +343,5 @@ export type BranchResponse = {
   };
   protected: boolean;
 };
+
+export type AccessPermission = 'pull' | 'push' | 'admin' | 'maintain' | 'triage';
