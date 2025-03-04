@@ -168,4 +168,10 @@ export class RepoUtils {
     console.log('Successfully got all repos!');
     return allRepos;
   }
+
+  async addTeamAccess(owner: string, repoName: string, teamSlug: string, permission: 'pull' | 'push' | 'admin' | 'maintain' | 'triage'): Promise<void> {
+    console.log(`Adding ${teamSlug} team with ${permission} permission to ${repoName}...`);
+    await this.githubApi.addTeamAccess(owner, repoName, teamSlug, permission);
+    console.log(`${teamSlug} team added with ${permission} permission!`);
+  }
 }

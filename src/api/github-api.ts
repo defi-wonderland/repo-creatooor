@@ -205,4 +205,10 @@ export class GithubApi {
       return false;
     }
   }
+
+  async addTeamAccess(owner: string, repo: string, teamSlug: string, permission: 'pull' | 'push' | 'admin' | 'maintain' | 'triage'): Promise<void> {
+    await this.axios.put(`/orgs/${owner}/teams/${teamSlug}/repos/${owner}/${repo}`, {
+      permission: permission
+    });
+  }
 }

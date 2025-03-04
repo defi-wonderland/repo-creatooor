@@ -37,6 +37,7 @@ const createRepo = async () => {
       await repoUtils.addPrTemplate(owner, repo, projectCode);
     }
     await repoUtils.addCollaborator(owner, repo, admin, 'admin');
+    await repoUtils.addTeamAccess(owner, repo, 'defi-wonderland/all', 'pull');
     await repoUtils.checkBranchExistsOrCreate(owner, repo, 'dev', 'main');
     await repoUtils.updateRepo(owner, repo, '');
     await repoUtils.updateBranchProtection(owner, repo, 'main', true);
