@@ -209,7 +209,7 @@ export class GithubApi {
 
   async addTeamAccess(owner: string, repo: string, teamSlug: string, permission: AccessPermission): Promise<void> {
     await this.axios.put(`/orgs/${owner}/teams/${teamSlug}/repos/${owner}/${repo}`, {
-      permission: permission,
+      permission,
     });
   }
 }
