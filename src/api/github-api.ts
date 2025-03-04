@@ -213,7 +213,7 @@ export class GithubApi {
     permission: 'pull' | 'push' | 'admin' | 'maintain' | 'triage'
   ): Promise<void> {
     await this.axios.put(`/orgs/${owner}/teams/${teamSlug}/repos/${owner}/${repo}`, {
-      permission: permission,
+      permission,
     });
   }
 }
